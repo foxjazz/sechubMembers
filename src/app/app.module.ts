@@ -6,6 +6,8 @@ import { appRoutingProviders, routing } from './app.routing';
 import { NavbarModule } from './shared';
 import { HomeModule } from './home/home.module';
 import { TodolistModule } from './todolist/todolist.module';
+import { LoginModule } from './login/login.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -15,7 +17,9 @@ import { TodolistModule } from './todolist/todolist.module';
         NavbarModule,
         HomeModule,
         TodolistModule,
-        routing
+        LoginModule,
+        routing,
+        FormsModule
     ],
     providers: [ APP_PROVIDERS, appRoutingProviders ],
     bootstrap: [ AppComponent ]
