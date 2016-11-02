@@ -7,6 +7,7 @@ import { NavbarModule } from './shared';
 import { HomeModule } from './home/home.module';
 import { TodolistModule } from './todolist/todolist.module';
 import { LoginModule } from './login/login.module';
+import { SignInModule } from './signin/signin.module';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -18,8 +19,10 @@ import { FormsModule } from '@angular/forms';
         HomeModule,
         TodolistModule,
         LoginModule,
+        SignInModule,
         routing,
         FormsModule
+
     ],
     providers: [ APP_PROVIDERS, appRoutingProviders ],
     bootstrap: [ AppComponent ]

@@ -1,6 +1,7 @@
 <html>
-  <head>
-    <title>Angular 2 Starter</title>
+
+<head>
+    <title>Quick Auth</title>
     <base href="/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -10,10 +11,11 @@
     <link rel="stylesheet" href="/assets/styles/main.css">
     <!-- endinject -->
     <!-- endbuild -->
-  </head>
-  <body>
+</head>
+
+<body>
     <as-main-app>
-      <i class="center-fix main-spinner fa fa-spin fa-spinner"></i>
+        <i class="center-fix main-spinner fa fa-spin fa-spinner"></i>
     </as-main-app>
 
     <!-- build:js assets/lib.js -->
@@ -38,9 +40,12 @@
     <script src="../node_modules/systemjs/dist/system.js"></script>
     <script src="systemjs.conf.js"></script>
     <script>
-      System.import('app/main.js')
-        .catch(function(err) { console.error(err); });
+        System.import('app/main.js')
+            .catch(function(err) {
+                console.error(err);
+            });
     </script>
     <!-- endbuild -->
-  </body>
+</body>
+
 </html>

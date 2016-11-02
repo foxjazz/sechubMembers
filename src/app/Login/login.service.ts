@@ -15,12 +15,13 @@ export class LoginService {
     private data: any;
     private handleError: any;
     constructor (private h: Http) {
-        this.uri = config.core;
+        this.uri = config.node;
         this.http = h;
     }
 
     public login(loginData: NgForm): boolean
     {
+        
         this.login2(loginData).subscribe(test => this.data = test);
         return true;
     }
@@ -28,16 +29,31 @@ export class LoginService {
     {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions( { headers: headers } );
-        let uriplus = this.uri; // + '/login';
+        let uriplus = this.uri + '/login';
         return this.http.post(uriplus, loginData, options)
             .map(this.data);
 
     }
 
-    public register (registerData: NgForm): boolean
+  public register(loginData: NgForm): boolean
+    {
+        
+        this.register2(loginData).subscribe(test => this.data = test);
+        return true;
+    }
+    public register2 (loginData: NgForm): Observable<any>
+    {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions( { headers: headers } );
+        let uriplus = this.uri + '/register';
+        return this.http.post(uriplus, loginData, options)
+            .map(this.data);
+
+    }
+  /*  public register (registerData: NgForm): boolean
     {
         let uriplus = this.uri + '/register';
         this.http.post(uriplus, registerData);
         return true;
-    }
+    }*/
 }
