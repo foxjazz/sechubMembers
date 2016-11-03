@@ -51,16 +51,15 @@ app.post('/sessions/signin', function(req, res) {
         } else {
             console.log(JSON.stringify('item:' + item));
         }
+        console.log('inserted ' + JSON.stringify(users));
+        var token = createToken(users);
+        console.log('token:' + token);
+        return res.status(201).send({
+            id_token: token
 
+        });
     });
-    console.log('inserted ' + JSON.stringify(users));
 
-    var token = createToken(users);
-    console.log('token:' + token);
-    return res.status(201).send({
-        id_token: token
-
-    });
 });
 
 app.post('/sessions/login', function(req, res) {
