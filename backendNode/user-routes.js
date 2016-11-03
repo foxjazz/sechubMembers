@@ -7,17 +7,14 @@ var app = module.exports = express.Router();
 
 // XXX: This should be a database of users :).
 var users = {
-    id: 1,
     login: 'gonto',
     password: 'gonto',
     email: 'email'
 };
 
-var Db = require('tingodb')().Db,
-    assert = require('assert');
+var JDb = require('node-json-db');
 
-var db = new Db('/c2016/', {});
-var collection = db.collection("users");
+var jdb = new JDb("users", true, false);
 
 console.log('restarted');
 
@@ -30,34 +27,27 @@ app.post('/sessions/signin', function(req, res) {
     if (!req.body.login || !req.body.password) {
         return res.status(400).send("You must send the username and the password");
     }
+    try {
+        isuser = jdb.getData("/" + req.body.login);
+        if (isuser.password === req.body.password) {
+            console.log('good pw on signin returning 201');
+            return res.status(201).send(iuser);
+        }
 
-    collection.findOne({ login: req.body.login }, function(err, item) {
-        if (item && item.password === req.body.password)
-            console.log('returning good pass');
-        return res.status(201).send(item);
-    })
+    } catch (error) {
+        console.log(error);
+    }
+
+
 
     var profile = _.pick(req.body, 'login', 'password', 'email');
-    console.log(collection.count());
-    if (collection.count() !== undefined) {
-        users.id = collection.findOne().sort({ id: -1 });
-    }
+
     users.login = profile.login;
     users.password = profile.password;
     users.email = profile.email;
-    collection.insert([users], { id: users.id }, function(err, item) {
-        if (null !== err) {
-            console.log('err:' + err);
-        } else {
-            console.log(JSON.stringify('item:' + item));
-        }
-        console.log('inserted ' + JSON.stringify(users));
-        var token = createToken(users);
-        console.log('token:' + token);
-        return res.status(201).send({
-            id_token: token
-
-        });
+    jdb.push("/" + users.login, users);
+    return res.status(201).send({
+        id_token: token
     });
 
 });
