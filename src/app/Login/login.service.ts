@@ -38,16 +38,26 @@ export class LoginService {
   public register(loginData: NgForm): boolean
     {
         
-        this.register2(loginData).subscribe(test => this.data = test);
+        this.register2(loginData); // .subscribe(test => this.data = test);
         return true;
     }
-    public register2 (loginData: NgForm): Observable<any>
+    public register2 (loginData: NgForm)
     {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions( { headers: headers } );
-        let uriplus = this.uri + '/register';
-        return this.http.post(uriplus, loginData, options)
-            .map(this.data);
+        let uriplus = this.uri + '/signin';
+        let ld = JSON.stringify(loginData);
+        this.http.post(uriplus, ld, options)
+            .subscribe(
+                response => {
+                    console.log(response.json().id_token);
+                    localStorage.setItem('id_token', response.json().id_token);
+                },
+                error => {
+                    alert(error.text());
+                    console.log(error.text());
+                }
+            );
 
     }
   /*  public register (registerData: NgForm): boolean

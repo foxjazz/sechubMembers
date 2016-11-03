@@ -9,31 +9,34 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
  * Created by foxjazz on 9/30/16.
  */
 var core_1 = require('@angular/core');
-var login_service_1 = require('./login.service');
-var LoginComponent = (function () {
-    function LoginComponent(lgnsvs) {
-        this.lgnsvs = lgnsvs;
+var login_service_1 = require('../login/login.service');
+var SignInComponent = (function () {
+    function SignInComponent(d) {
+        this.d = d;
         this.user = {
             username: '',
-            password: ''
+            password: '',
+            email: ''
         };
-        this.lgns = lgnsvs;
+        this.regs = d;
     }
-    LoginComponent.prototype.onSubmit = function (f) {
+    SignInComponent.prototype.onSubmit = function (f) {
         console.log(f.value);
-        console.log(f.valid);
-        this.lgns.login(f.value);
+        this.regs.register(f.value);
     };
-    LoginComponent = __decorate([
+    SignInComponent = __decorate([
         core_1.Component({
-            selector: 'as-login',
-            templateUrl: 'app/login/login.html',
+            selector: 'as-signin',
+            templateUrl: 'app/signin/signin.html',
             styleUrls: [
-                'app/login/login.css'
+                'app/signin/signin.css'
             ],
             providers: [login_service_1.LoginService]
         })
-    ], LoginComponent);
-    return LoginComponent;
+    ], SignInComponent);
+    return SignInComponent;
 }());
-exports.LoginComponent = LoginComponent;
+exports.SignInComponent = SignInComponent;
+/**
+ * Created by fox21 on 11/1/2016.
+ */

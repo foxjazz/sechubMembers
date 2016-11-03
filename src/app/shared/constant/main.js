@@ -4,4 +4,3 @@ exports.MAIN = {
         BRAND: 'Quck Auth Starter'
     }
 };
-//# sourceMappingURL=main.js.map

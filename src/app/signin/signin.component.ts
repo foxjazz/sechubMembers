@@ -27,7 +27,7 @@ export class SignInComponent {
     onSubmit(f: NgForm)
     {
         console.log(f.value);
-        this.regs.register(f);
+        this.regs.register(f.value);
     }
 
 }

@@ -6,18 +6,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require('@angular/core');
-var HomeComponent = (function () {
-    function HomeComponent() {
+var index_1 = require('./index');
+var forms_1 = require('@angular/forms');
+var http_1 = require('@angular/http');
+var SignInModule = (function () {
+    function SignInModule() {
     }
-    HomeComponent = __decorate([
-        core_1.Component({
-            selector: 'as-home',
-            templateUrl: 'app/home/home.html',
-            styleUrls: [
-                'app/home/home.css'
+    SignInModule = __decorate([
+        core_1.NgModule({
+            declarations: [
+                index_1.SignInComponent
+            ],
+            imports: [forms_1.FormsModule, http_1.HttpModule],
+            exports: [
+                index_1.SignInComponent
             ]
         })
-    ], HomeComponent);
-    return HomeComponent;
+    ], SignInModule);
+    return SignInModule;
 }());
-exports.HomeComponent = HomeComponent;
+exports.SignInModule = SignInModule;

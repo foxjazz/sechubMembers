@@ -1,9 +1,20 @@
 <body>
     <form #f="ngForm" (ngSubmit)="onSubmit(f)">
-        <input name="email" ngModel required>
-        <input name="login" ngModel required #first="ngModel">
-        <input name="password" ngModel required #password="ngModel">
-        <button>Submit</button>
-        <!--<a [routerLink]="['/signin']">Click here to register</a>-->
+        <div>
+            <label for="login">Login</label>
+            <input name="login" ngModel required #first="ngModel">
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input name="password" ngModel required #password="ngModel">
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input name="email" ngModel required #email="ngModel">
+        </div>
+        <div>
+            <button>Submit</button>
+        </div>
     </form>
+
 </body>

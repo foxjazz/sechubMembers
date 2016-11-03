@@ -27,7 +27,7 @@ export class LoginComponent {
     {
         console.log(f.value);
         console.log(f.valid);
-        this.lgns.login(f);
+        this.lgns.login(f.value);
     }
 
 }

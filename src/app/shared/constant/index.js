@@ -5,4 +5,3 @@ exports.CONSTANTS = {
     MAIN: main_1.MAIN,
     ENV: env_1.ENV
 };
-//# sourceMappingURL=index.js.map
