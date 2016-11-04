@@ -53,16 +53,20 @@ app.post('/sessions/signin', function(req, res) {
 });
 
 app.post('/sessions/login', function(req, res) {
-    console.log("login with: " + req.body);
-    if (!req.body.username || !req.body.password) {
+   console.log("create with: " + req.body.login);
+    if (!req.body.login || !req.body.password) {
         return res.status(400).send("You must send the username and the password");
     }
-    collection.findOne({ login: req.body.username }, function(err, item) {
-        if (item && item.password === req.body.password)
-            return res.status(201).send({
-                id_token: createToken(user)
-            });
-    })
+    try {
+        isuser = jdb.getData("/" + req.body.login);
+        if (isuser.password === req.body.password) {
+            console.log('good pw on signin returning 201');
+            return res.status(201).send(iuser);
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
 
     return res.status(401).send("The username or password don't match");
 
