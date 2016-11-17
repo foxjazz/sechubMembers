@@ -12,6 +12,7 @@ import { TodolistModule } from './todolist/todolist.module';
 import { LoginModule } from './login/login.module';
 import { SignInModule } from './signin/signin.module';
 import { FormsModule } from '@angular/forms';
+import { RegionModule } from './regions/region.module';
 
 @NgModule({
     declarations: [
@@ -22,13 +23,16 @@ import { FormsModule } from '@angular/forms';
         HomeModule,
         TodolistModule,
         LoginModule,
+
         SignInModule,
         routing,
         FormsModule,
         BrowserModule,
         HttpModule,
-        RouterModule.forRoot([{path: 'Login', component: LoginModule}, {path: 'Signin', component: SignInModule}])
-
+        RegionModule,
+        /*,
+        RouterModule.forRoot([{path: 'Login', component: LoginModule}, {path: 'Signin', component: SignInModule}, {path: 'Region', component: RegionModule}])
+*/
     ],
     providers: [ APP_PROVIDERS, appRoutingProviders ],
     bootstrap: [ AppComponent ]

@@ -8,7 +8,7 @@ import { IRegions, Region, ISystems } from './IRegions';
 import 'rxjs/add/operator/map';
 
 @Injectable()
-export class HTTPEveService {
+export class RegionService {
     private uri = 'https://crest-tq.eveonline.com/regions/';
     private uriSys: string = '';
     public Regions: Array<Region>;

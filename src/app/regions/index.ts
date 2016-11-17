@@ -4,5 +4,5 @@
 export * from './region.component';
 export * from './region.routes';
 export * from './region.module';
-export * from './http-eve.service';
+export * from './region.service';
 export * from './IRegions'

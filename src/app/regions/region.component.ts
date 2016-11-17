@@ -1,20 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { Region, ISystem, ISystemShortDescriptor, ISystemShort } from './IRegions';
-import { HTTPEveService } from './http-eve.service';
+import { RegionService } from './region.service';
 import 'rxjs/Rx';
 
 // package.json has the dependency list
 @Component({
-    templateUrl: 'app/regions/region.component.html',
+    selector: 'as-region',
+    templateUrl: '/app/Home/Home.html',
     styleUrls: ['app/regions/region.css'],
-    providers: [ HTTPEveService ]
+    providers: [ RegionService ]
 })
 
 //[provide('localStorage', {useValue: window.localStorage})]
 
 export class RegionComponent implements OnInit {
     public title: string = 'Regions List';
-    private errorMessage: string = '';
+    public errorMessage: string = '';
     public Regs: Array<Region>;
 
     private loaded = false;
@@ -24,8 +25,10 @@ export class RegionComponent implements OnInit {
     public selSystems: Array<ISystemShort>;
     public lastSelRegion: string;
     private lastSelRegionId: string;
-
-    constructor(private eveService: HTTPEveService) { }
+    private eveService;
+    constructor(private es: RegionService) {
+        this.eveService = es;
+    }
 
     private notfound(sys: Array<ISystem>, s: string) : boolean {
         for (let t of sys) {

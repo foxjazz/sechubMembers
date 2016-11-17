@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RegionComponent } from './region.component';
 import { HttpModule } from '@angular/http';
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
     declarations: [
         RegionComponent
     ],
-    imports: [ HttpModule ],
+    imports: [ HttpModule, CommonModule ],
     exports: [
         RegionComponent
     ]
