@@ -6,7 +6,7 @@ import 'rxjs/Rx';
 // package.json has the dependency list
 @Component({
     selector: 'as-region',
-    templateUrl: '/app/Home/Home.html',
+    templateUrl: '/app/regions/region.html',
     styleUrls: ['app/regions/region.css'],
     providers: [ RegionService ]
 })

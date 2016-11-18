@@ -11,7 +11,7 @@ const appRoutes: Routes = [
     ...TodolistRoutes,
     ...LoginRoutes,
     ...SignInRoutes,
-    //...RegionRoutes,
+    ...RegionRoutes,
 ];
 
 export const appRoutingProviders: any[] = [
