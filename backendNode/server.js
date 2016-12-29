@@ -11,13 +11,14 @@ var app = express();
 dotenv.load();
 
 
-// Parsers
+// Parsers//
 // old version of line
 // app.use(bodyParser.urlencoded());
 // new version of line
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
+//app.use(express.bodyParser());
 
 app.use(function(err, req, res, next) {
     if (err.name === 'StatusError') {

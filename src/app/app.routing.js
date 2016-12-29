@@ -8,3 +8,4 @@ var index_5 = require('./regions/index');
 var appRoutes = index_1.HomeRoutes.concat(index_2.TodolistRoutes, index_3.LoginRoutes, index_4.SignInRoutes, index_5.RegionRoutes);
 exports.appRoutingProviders = [];
 exports.routing = router_1.RouterModule.forRoot(appRoutes);
+//# sourceMappingURL=app.routing.js.map

@@ -8,3 +8,4 @@ exports.config = {
     prod: 'http://74.208.129.62:3000',
     node: 'http://localhost:3035/sessions'
 };
+//# sourceMappingURL=config.js.map

@@ -4,3 +4,4 @@ exports.MAIN = {
         BRAND: 'Quick Auth Starter'
     }
 };
+//# sourceMappingURL=main.js.map
