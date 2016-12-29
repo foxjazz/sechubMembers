@@ -3,13 +3,21 @@ var express = require('express'),
 
 var app = module.exports = express.Router();
 
+var cradle = require('cradle');
+
+var db = new(cradle.Connection)().database('members');
 
 app.get('/api/random-quote', function(req, res) {
     res.status(200).send(quoter.getRandomOne());
 });
 
-app.post('/damnfun', function(req, res) {
 
+app.post('/couchproxy', function(req, res) {
+
+    // console.log("todo:", req.body);
+
+    // res.status(200).json(todo);
+    // res.send('OK');
     // if (!req.body.login || !req.body.password) {
     //     return res.status(400).send("You must send the username and the password");
     // }
@@ -27,12 +35,14 @@ app.post('/damnfun', function(req, res) {
     // return res.status(401).send("The username or password don't match");
 
 
-    db.save(req.body.id, req.body.couchdata, function(err, res) {
+    db.save(req.body._id, req.body.couchbody, function(err, res) {
         if (err)
             console.log(err.json());
-        else
-            console.log(res.json());
+        else {
+            res.status(200);
+            res.send('OK');
+        }
     });
-    res.end();
+
 
 });
