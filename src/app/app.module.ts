@@ -13,6 +13,7 @@ import { LoginModule } from './login/login.module';
 import { SignInModule } from './signin/signin.module';
 import { FormsModule } from '@angular/forms';
 import { RegionModule } from './regions/region.module';
+import {MemberlistModule} from "./Members/memberlist.module";
 
 @NgModule({
     declarations: [
@@ -23,7 +24,7 @@ import { RegionModule } from './regions/region.module';
         HomeModule,
         TodolistModule,
         LoginModule,
-
+        MemberlistModule,
         SignInModule,
         routing,
         FormsModule,

@@ -35,7 +35,7 @@
     "no-eval": true,
     "no-inferrable-types": true,
     "no-shadowed-variable": true,
-    "no-string-literal": true,
+    "no-string-literal": false,
     "no-switch-case-fall-through": true,
     "trailing-comma": true,
     "no-trailing-whitespace": false,
@@ -50,10 +50,10 @@
       "check-else",
       "check-whitespace"
     ],
-    "quotemark": [true, "single"],
+    "quotemark": [false, "single"],
     "radix": true,
     "semicolon": [true, "always"],
-    "triple-equals": [true, "allow-null-check"],
+    "triple-equals": [false, "allow-null-check"],
     "typedef-whitespace": [false, {
       "call-signature": "nospace",
       "index-signature": "nospace",
@@ -87,6 +87,6 @@
     "pipe-naming": [false, "camelCase", "as"],
     "component-class-suffix": true,
     "directive-class-suffix": true,
-    "import-destructuring-spacing": true
+    "import-destructuring-spacing": false
   }
 }

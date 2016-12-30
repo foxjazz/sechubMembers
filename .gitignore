@@ -8,3 +8,4 @@ env.json
 /src/tmp
 .DS_Store
 /src/assets/styles/*.css
+/src/app/Members/config.ts
