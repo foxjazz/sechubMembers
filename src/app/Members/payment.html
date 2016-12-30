@@ -3,13 +3,17 @@
 
         <!--<span [hidden]="member.email.valid" class="badge badge-warning">Required</span>-->
         <div class="form-inline">
-            <label for="paydate">date of payment</label>
-            <input required [(ngModel)]="pay.receivedDate" id="paydate" name="payDate" type="date" class="form-control" size="10">
-            <label for="amt">Amount</label>
-            <input required [(ngModel)]="pay.amount" id="amt" name="amount" type="date" class="form-control" size="10">
-            <label for="typ">Type</label>
-            <input required [(ngModel)]="pay.type" id="typ" name="type" type="text" class="form-control" size="10">
 
+            <label for="paydate">date</label>
+            <input required [(ngModel)]="pay.receivedDate" id="paydate" name="payDate" type="text" class="form-control" size="12">
+
+
+        </div>
+        <div class="form-inline">
+            <label for="amt">Amount</label>
+            <input required [(ngModel)]="pay.amount" id="amt" name="amount" type="number" class="form-control" size="3">
+            <label for="typ">Type</label>
+            <input required [(ngModel)]="pay.type" id="typ" name="type" type="text" class="form-control" size="6">
         </div>
         <div class="submit">
             <button type="submit" class="btn-custom">{{mode}}</button>

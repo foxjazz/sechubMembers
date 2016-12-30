@@ -72,7 +72,7 @@ export class ExtendedMembersComponent implements OnInit {
     saveChanges(){
         console.log("clicked save");
         this.msvs.putDoc(this.member._id,JSON.stringify(this.member));
-        this.router.navigate(['/memberlist']);
+        this.router.navigate(['/memberlist','extended']);
     }
     ngOnInit(){
 /*

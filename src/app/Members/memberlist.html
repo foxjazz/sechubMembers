@@ -69,6 +69,7 @@
                 <label for="sellastName">last name</label>
                 <input type="text" id="sellastName" name="sellastName" value="" size="6" [(ngModel)]="lastNameFilter">
             </div>
+            <div id="scrolltable">
             <table class="itemtable">
                 <tr>
                     <th>first name</th>
@@ -94,6 +95,7 @@
                     <!--<td class="price"><a [routerLink]="['/ems', al]"> extended members</a></td>-->
                 </tr>
             </table>
+            </div>
             <!--<ul class="list-group">
                 <li *ngFor="let member of memberlist; let i=index" class="list-group-item">
                 <span title="Remove member" class="badge" (click)="delMember(i) ">x</span>

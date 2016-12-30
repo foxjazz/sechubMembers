@@ -17,7 +17,7 @@ export class PaymentComponent implements OnInit {
         else {
             this.pay = this.payments[0];
         }
-
+        this.mode = "";
 
     }
     @Input()
@@ -27,6 +27,8 @@ export class PaymentComponent implements OnInit {
     submitForm() {
         //let m = new Member('',false);
         //
+        if(this.mode.length === 0)
+            return;
         if(this.mode === "Add") {
             this.payments.push(this.pay);
         }
@@ -40,7 +42,9 @@ export class PaymentComponent implements OnInit {
         if(event.target["id"]=== "Select")
         {
             this.mode = "Save";
+            //let d = new Date(pay.receivedDate);
             this.pay = pay;
+            //this.pay.receivedDate = d;
         }
         if(event.target["id"]=== "Add")
         {
@@ -57,7 +61,7 @@ export class PaymentComponent implements OnInit {
 
     }
     ngOnInit(){
-        this.mode = "Add";
+        this.mode = "";
     }
 }
 
