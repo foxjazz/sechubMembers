@@ -24,6 +24,15 @@ export class PaymentComponent implements OnInit {
     payments: Array<IPayment>;
     pay: IPayment;
     mode: string;
+    set humanDate(e){
+        e = e.split('-');
+        let d = new Date(Date.UTC(e[0], e[1]-1, e[2]));
+        this.pay.receivedDate.setFullYear(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+    }
+
+    get humanDate(){
+        return this.pay.receivedDate.toISOString().substring(0, 10);
+    }
     submitForm() {
         //let m = new Member('',false);
         //

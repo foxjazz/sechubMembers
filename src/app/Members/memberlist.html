@@ -84,10 +84,12 @@
                     <!--<th>add</th>-->
 
                     <!--<th>payments</th>
-                    <th>extended members</th>-->
+                    <th>extended members</th>
+                    (keyup.enter)="onUsingTable"
+                    -->
 
                 </tr>
-                <tr  *ngFor="let al of (memberlist | asFilter:activeFilter:firstNameFilter:lastNameFilter);" [class.itemselected]="item === selectedItem" (click)="onUsingTable(al)">
+                <tr  *ngFor="let al of (memberlist | asFilter:activeFilter:firstNameFilter:lastNameFilter);" [class.itemselected]="item === selectedItem" (click)="onUsingTable(al)" >
 
                     <td> {{al.firstName}} </td>
                     <td> {{al.lastName}} </td>

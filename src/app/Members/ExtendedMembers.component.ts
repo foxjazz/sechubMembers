@@ -27,9 +27,11 @@ export class ExtendedMembersComponent implements OnInit {
     }
 /*    @Input()
     action:string;*/
+    @Input()
+    ems: Array<ExtendedMember>;
     member: Member;
     router: Router;
-    ems: Array<ExtendedMember>;
+    /*ems: Array<ExtendedMember>;*/
     em: ExtendedMember;
     mode: string;
     submitForm() {
@@ -82,23 +84,15 @@ export class ExtendedMembersComponent implements OnInit {
             this.member = JSON.parse(res);
         }
 */
-        let   res = localStorage.getItem('member');
-        this.member = JSON.parse(res);
+        /*let   res = localStorage.getItem('member');
+        this.member = JSON.parse(res);*/
         /*
         if(this.member === undefined) {
             console.log("input is not set yet, member is undefined");
             return;
         }
 */
-        if(this.member.ExtendedMembers == null || this.member.ExtendedMembers.length === 0)
-        {
-            this.member.ExtendedMembers = new Array<ExtendedMember>();
-        }
 
-        this.ems = this.member.ExtendedMembers;
-        //let newMember = new ExtendedMember();
-        //this.ems.push(newMember);
-        this.em = new ExtendedMember();
     }
 }
 /**
