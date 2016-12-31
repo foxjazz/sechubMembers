@@ -7,7 +7,7 @@
 
   <div class="panel-body">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
 <!--
             <div class="deal">
                 form data  email   {{member.email}}
@@ -58,6 +58,9 @@
                 </form>
             </div>
         </div>
+        <div class="col-md-6">
+
+        </div>
     </div>
     <div class="row">
         <div class="col-md-5">
@@ -76,10 +79,10 @@
                     <th>last name</th>
                     <th>active</th>
                     <th class="makeroom">  </th>
-                    <th>add</th>
-                    <th>remove</th>
-                    <th>payments</th>
-                    <th>extended members</th>
+                    <!--<th>add</th>-->
+
+                    <!--<th>payments</th>
+                    <th>extended members</th>-->
 
                 </tr>
                 <tr  *ngFor="let al of (memberlist | asFilter:activeFilter:firstNameFilter:lastNameFilter);" [class.itemselected]="item === selectedItem" (click)="onUsingTable(al)">
@@ -88,10 +91,10 @@
                     <td> {{al.lastName}} </td>
                     <td>{{al.active}}</td>
                     <td class="makeroom">  </td>
-                    <td class="price"><button id="Select" class="btn">Select</button></td>
-                    <td class="price"><button id="Remove" class="btn">Remove</button></td>
-                    <td class="price"><button id="Payments" class="btn">Payments</button></td>
-                    <td class="price"><button id="ems" class="btn">extended members</button></td>
+                    <!--<td class="price"><button id="Select" class="btn">Select</button></td>-->
+
+                    <!--<td class="price"><button id="Payments" class="btn">Payments</button></td>
+                    <td class="price"><button id="ems" class="btn">extended members</button></td>-->
                     <!--<td class="price"><a [routerLink]="['/ems', al]"> extended members</a></td>-->
                 </tr>
             </table>

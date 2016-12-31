@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 
 import {Member, IPayment, ExtendedMember, AllIds} from './member.model';
 import {PaymentComponent} from './payment.component';
@@ -15,7 +15,7 @@ import {MemberNJSService} from "./memberNJS.service";
     templateUrl: 'app/members/memberlist.html',
     styleUrls: ['app/members/member.css']
 })
-export class MemberlistComponent implements OnInit, OnDestroy{
+export class MemberlistComponent implements OnInit{
     @Input()
         from: string;
     member: Member;
@@ -110,10 +110,10 @@ export class MemberlistComponent implements OnInit, OnDestroy{
 
     }
 
-    ngOnDestroy(){
+   /* ngOnDestroy(){
         localStorage.setItem('members', JSON.stringify(this.memberlist));
         localStorage.setItem('members', JSON.stringify(new Date().getTime()));
-    }
+    }*/
     ngOnInit(){
         let res: string;
         //Here we do the initial call to get all of the id's from the database.
