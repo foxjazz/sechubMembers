@@ -59,11 +59,11 @@
             </div>
         </div>
         <div class="col-md-6">
-
+            <as-payment [payments]="getPayments()"></as-payment>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-12">
             <div>
                 <label for="selActive">is active</label>
                 <input type="checkbox" id="selActive" name="selActive" value="false" [(ngModel)]="activeFilter">
@@ -77,6 +77,8 @@
                 <tr>
                     <th>first name</th>
                     <th>last name</th>
+                    <th>address</th>
+                    <th>city state zip</th>
                     <th>active</th>
                     <th class="makeroom">  </th>
                     <!--<th>add</th>-->
@@ -89,6 +91,8 @@
 
                     <td> {{al.firstName}} </td>
                     <td> {{al.lastName}} </td>
+                    <td> {{al.address}}</td>
+                    <td> {{al.city}} {{al.state}} {{al.zip}}</td>
                     <td>{{al.active}}</td>
                     <td class="makeroom">  </td>
                     <!--<td class="price"><button id="Select" class="btn">Select</button></td>-->
@@ -106,9 +110,7 @@
                 </li>
             </ul>-->
         </div>
-        <div class="col-md-5">
-           <as-payment [payments]="getPayments()"></as-payment>
-        </div>
+
     </div>
   </div>
 </div>

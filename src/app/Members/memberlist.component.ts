@@ -81,6 +81,11 @@ export class MemberlistComponent implements OnInit{
     }
 
     public onUsingTable ( al: Member) {
+        this.member = al;
+        this.mode = "Save";
+        this.ems = this.member.ExtendedMembers;
+        this.payments = this.member.payments;
+        /*
         if(event.target["id"] === "Select")
         {
             this.member = al;
@@ -105,7 +110,7 @@ export class MemberlistComponent implements OnInit{
             localStorage.setItem('member',JSON.stringify(al));
             this.router.navigate(['/extendedMembers']);
             //this.router.navigate(['/extendedMembers', 'member']);
-        }
+        }*/
 
 
     }
