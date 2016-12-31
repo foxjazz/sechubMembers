@@ -37,12 +37,15 @@ export class MemberService
             .map((res: Response) => res.json());
 
     }
+
     public getDoc(id: string): Observable<any>
     {
         let uri = config.test + id;
         return this.http.get(uri)
             .map((res: Response) => res.json());
     }
+
+
     private getHeaders(){
         let headers = new Headers();
         headers.append('Accept', 'application/json');

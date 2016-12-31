@@ -3,7 +3,7 @@ import {Component, OnDestroy, OnInit, Input} from '@angular/core';
 import {Member, IPayment, ExtendedMember, AllIds} from './member.model';
 import {PaymentComponent} from './payment.component';
 import {ActivatedRoute, Params, Router}   from '@angular/router';
-import {MemberService} from "./member.service";
+import {MemberNJSService} from "./memberNJS.service";
 
 
 //import { AngularFire, FirebaseListObservable } from 'angularfire2';
@@ -11,7 +11,7 @@ import {MemberService} from "./member.service";
 @Component({
 
     selector: 'as-memberlist',
-    providers: [MemberService,PaymentComponent],
+    providers: [MemberNJSService,PaymentComponent],
     templateUrl: 'app/members/memberlist.html',
     styleUrls: ['app/members/member.css']
 })
@@ -30,11 +30,11 @@ export class MemberlistComponent implements OnInit, OnDestroy{
     firstNameFilter: string;
     lastNameFilter: string;
     private list: Member[];
-    private memservice: MemberService;
+    private memservice: MemberNJSService;
     private showCompleted: Boolean;
 
   //  memberlist: FirebaseListObservable<any[]>;
-    constructor(private r: Router, private ms: MemberService) {
+    constructor(private r: Router, private ms: MemberNJSService) {
         this.router = r;
         this.memservice  = ms;
         this.showCompleted = true;
@@ -132,6 +132,10 @@ export class MemberlistComponent implements OnInit, OnDestroy{
             }
         }
         if (this.from !== 'extended'){
+            this.ms.getAllDocs().subscribe(r1 => {
+                this.memberlist = r1;
+            });
+/*
             this.memservice.getAllDocs().subscribe(r1 => {
              for(let nn of r1.rows)
              {
@@ -142,6 +146,7 @@ export class MemberlistComponent implements OnInit, OnDestroy{
                         console.log(nn.id);
                  }
              });
+*/
         }
      /*
         res = localStorage.getItem('members');
