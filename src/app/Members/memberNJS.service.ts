@@ -16,47 +16,54 @@ export class MemberNJSService
     {
         this.http = h;
     }
-    /* public handleError(error: Response) {
-     console.error(error);
-     return Observable.throw(error.json().error || 'Server error');
-     }
-     private handleError2 (error: Response | any) {
-     // In a real world app, we might use a remote logging infrastructure
-     let errMsg: string;
-     if (error instanceof Response) {
-     const body = error.json() || '';
-     const err = body.error || JSON.stringify(body);
-     errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-     } else {
-     errMsg = error.message ? error.message : error.toString();
-     }
-     console.error(errMsg);
-     return Observable.throw(errMsg);
-     }*/
+
     public getAllDocs(): Observable<Array<Member>>
     {
         let uri = confignjs.hostlocal + '/couchDataAll';
         return this.http.get(uri)
             .map((res: Response) => res.json());
     }
-
-    private save(uri: string,data: string) : Observable<Response>{
+    public getDoc(id: string): Observable<Member>{
+        let uri = confignjs.hostlocal + '/couchGet';
+        return this.http.get(uri + '?id=' + id)
+            .map((res: Member) => res);
+    }
+    private q2: Array<Member>;
+    private save(uri: string,data: string) : any{
         // this won't actually work because the StarWars API doesn't
         // is read-only. But it would look like this:
+
+        let ret = new Member('',false);
+
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions( { headers: headers } );
-        return this.http
-            .post(uri, data, options);
+        return this.http.post(uri, data, options).map(x => x.json());
+/*
+        return Observable.from(this.q2).flatMap(res => {
+            this.http.post(uri, data, options)
+                .do((res: Response) => {
+                    let js = res.json();
+                    let m: Member;
+                    m= JSON.parse(data);
+                    m._rev = js.rev;
+                    ret = m;
+
+                });
+
+            });
+*/
+
     }
-    public putDoc(id: string, val: string): Observable<Member>{
+    public putDoc(member: Member): Member {
+
         let uri = confignjs.hostlocal + '/couchSave';
-        this.save(uri,val).subscribe(data => {
-            console.log(data.json());
-            console.log('saved data?');
+        let geturi = confignjs.hostlocal + '/couchGet';
+        let result =  this.save(uri,JSON.stringify(member));
+        member._rev = result.rev;
+        this.getDoc(member._id).subscribe(j => {
+            member = j;
         });
 
-        return this.http.get(uri + '?id=' + id)
-            .map((res: Response) => res.json());
 
     };
 

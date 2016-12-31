@@ -34,9 +34,10 @@ app.get('/couchGet', function(req, res) {
 app.post('/couchSave', function(req, res1) {
 
     db.save(req.body._id, req.body, function(err, r1) {
-        if (err)
+        if (err) {
             console.log(err.json());
-        else {
+            res1.status(500).send(err);
+        } else {
             res1.status(200).send(r1);
         }
     });

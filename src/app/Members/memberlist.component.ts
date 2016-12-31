@@ -64,11 +64,11 @@ export class MemberlistComponent implements OnInit, OnDestroy{
             this.member.index = this.memberlist.length;
             let d = new Date();
             let id = d.toString();
-            this.memservice.putDoc(id,JSON.stringify(this.member));
+            this.member = this.memservice.putDoc(this.member);
         }
         else
         {
-            this.memservice.putDoc(this.member._id,JSON.stringify(this.member));
+            this.memservice.putDoc(this.member);
         }
         this.member = new Member('', false);
         this.mode = "Add";

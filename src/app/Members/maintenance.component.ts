@@ -74,138 +74,70 @@ export class MaintenanceComponent implements OnInit {
 
     }
     private m: Member;
-    private reconcile(){
+    private reconcile() {
         let tnow = new Date();
         this.ms.getAllDocs().subscribe(r1 => {
             this.memberlist = r1;
-            for(let res2 of this.memberlist) {
+            for (let res2 of this.memberlist) {
                 this.m = res2;
-                if(this.m.payments != null && this.m.payments.length > 0)
-                {
+                if (this.m.payments != null && this.m.payments.length > 0) {
                     let pay = this.getLastPayment(this.m.payments);
-                    if(pay.amount < rules.recuringAmount) {
+                    if (pay.amount < rules.recuringAmount) {
                         this.m.frequency = 1;
-                        this.m.targetDate = this.addMonths(pay.receivedDate,1);
+                        this.m.targetDate = this.addMonths(pay.receivedDate, 1);
                         pay.targetDate = this.m.targetDate;
                     }
                     else {
                         this.m.frequency = 12;
-                        this.m.targetDate = this.addMonths(pay.receivedDate,12);
+                        this.m.targetDate = this.addMonths(pay.receivedDate, 12);
                         pay.targetDate = this.m.targetDate;
                     }
 
-                    if(this.m.targetDate > tnow){this.m.active = true;}
+                    if (this.m.targetDate > tnow) {
+                        this.m.active = true;
+                    }
                     else this.m.active = false;
                 }
-                else{
+                else {
                     this.m.active = false;
                 }
-                this.ms.putDoc(this.m._id,JSON.stringify(this.m));
-            }
-        }
-/*
-        this.ms.getAllDocs().subscribe(r1 => {
-
-            for(let nn of r1.rows)
-            {
-                this.ms.getDoc(nn.id).subscribe(res2 =>
-                {
-                    this.m = res2;
-                    if(this.m.payments != null && this.m.payments.length > 0)
-                    {
-                        let pay = this.getLastPayment(this.m.payments);
-                        if(pay.amount < rules.recuringAmount) {
-                            this.m.frequency = 1;
-                            this.m.targetDate = this.addMonths(pay.receivedDate,1);
-                            pay.targetDate = this.m.targetDate;
-                        }
-                        else {
-                            this.m.frequency = 12;
-                            this.m.targetDate = this.addMonths(pay.receivedDate,12);
-                            pay.targetDate = this.m.targetDate;
-                        }
-
-                        if(this.m.targetDate > tnow){this.m.active = true;}
-                        else this.m.active = false;
-                    }
-                    else{
-                        this.m.active = false;
-                    }
-                    this.ms.putDoc(this.m._id,JSON.stringify(this.m));
-                });
+                this.ms.putDoc(this.m);
             }
         });
-*/
     }
 
+
     private doConvert(){
-        this.ms.getAllDocs().subscribe(r1 => {
-           this.memberlist = r1;
-           for(let res2 of this.memberlist)
-           {
-               let m = new Member(res2.email, false);
-               m.address = res2.address;
-               m._id = res2._id;
-               m.city = res2.city;
-               m.state = res2.state;
-               m.zip = res2.zip;
-               m.payments = new Array<IPayment>();
-               m.email = res2.email;
-               m.firstName = res2.firstName;
-               m.lastName = res2.lastName;
-               if (res2.payments != null && res2.payments.length > 0) {
-                   for (let p of res2.payments) {
-                       let pay: IPayment;
-                       pay = {
-                           receivedDate: p.receivedDate,
-                           amount: p.amount,
-                           type: '',
-                           active: false,
-                           targetDate: undefined
-                       };
-                       m.payments.push(pay);
-                   }
-               }
-               this.ms.putDoc(m._id,JSON.stringify(m));
-           }
-        });
-       /* this.ms.getAllDocs().subscribe(r1 => {
-
-            for(let nn of r1.rows)
-            {
-                this.ms.getDoc(nn.id).subscribe(res2 =>
-                {
-                    let m = new Member(res2.Email, false);
-                    m.address = res2.address;
-                    m._id = res2._id;
-                    m.city = res2.city;
-                    m.state = res2.state;
-                    m.zip = res2.zip;
-                    m.payments = new Array<IPayment>();
-                    m.email = res2.email;
-                    m.firstName = res2.firstName;
-                    m.lastName = res2.lastName;
-                    if (res2.payments != null && res2.payments.length > 0) {
-                        for (let p of res2.payments) {
-                            let pay: IPayment;
-                            pay = {
-                                receivedDate: p.receivedDate,
-                                amount: p.amount,
-                                type: '',
-                                active: false,
-                                targetDate: undefined
-                            };
-                            m.payments.push(pay);
-                        }
-                    }
-                    //this.ms.putOnNode(m._id,JSON.stringify(m));
-                    this.ms.putDoc(m._id,JSON.stringify(m));
-
-                });
-
+    this.ms.getAllDocs().subscribe(r1 => {
+        this.memberlist = r1;
+        for (let res2 of this.memberlist) {
+            let m = new Member(res2.email, false);
+            m.address = res2.address;
+            m._id = res2._id;
+            m.city = res2.city;
+            m.state = res2.state;
+            m.zip = res2.zip;
+            m.payments = new Array<IPayment>();
+            m.email = res2.email;
+            m.firstName = res2.firstName;
+            m.lastName = res2.lastName;
+            if (res2.payments != null && res2.payments.length > 0) {
+                for (let p of res2.payments) {
+                    let pay: IPayment;
+                    pay = {
+                        receivedDate: p.receivedDate,
+                        amount: p.amount,
+                        type: '',
+                        active: false,
+                        targetDate: undefined
+                    };
+                    m.payments.push(pay);
+                }
             }
+            this.ms.putDoc(m);
+        }
+    });
 
-        });*/
     }
     public onUsingTable ( al: Member) {
         if(event.target["id"] === "filter") {
