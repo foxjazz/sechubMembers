@@ -54,7 +54,7 @@ export class MemberNJSService
 */
 
     }
-    public putDoc(member: Member): Member {
+    public putDoc(member: Member) {
 
         let uri = confignjs.hostlocal + '/couchSave';
         let geturi = confignjs.hostlocal + '/couchGet';
