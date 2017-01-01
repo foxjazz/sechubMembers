@@ -1,17 +1,24 @@
 "use strict";
+var ExtendedMember = (function () {
+    function ExtendedMember() {
+    }
+    return ExtendedMember;
+}());
+exports.ExtendedMember = ExtendedMember;
 var Member = (function () {
-    /*
-        static clone(member: Member): Member {
-            return new Member(member.name, member.done);
-        }
-    */
     function Member(email, done) {
         if (done === void 0) { done = false; }
         this.email = email;
         this.completed = done;
         this.joinedDate = new Date();
         this.payments = new Array();
+        this.frequency = 12; //frequency of payments in months
+        // members.push(this);
+        // this.key = members.length;
     }
+    Member.prototype.delete = function () {
+        this.active = false;
+    };
     Member.prototype.clear = function () {
         this.email = '';
         this.firstName = '';

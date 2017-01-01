@@ -25,13 +25,16 @@ export class PaymentComponent implements OnInit {
     pay: IPayment;
     mode: string;
     set humanDate(e){
-        e = e.split('-');
-        let d = new Date(Date.UTC(e[0], e[1]-1, e[2]));
+        let ee = e.split('-');
+        let d = new Date(Date.UTC(Number(ee[0]), Number(ee[1])-1, Number(ee[2])));
         this.pay.receivedDate.setFullYear(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
     }
 
     get humanDate(){
-        return this.pay.receivedDate.toISOString().substring(0, 10);
+        if(this.pay != null) {
+            let d = new Date(this.pay.receivedDate.valueOf());
+            return d.toISOString().substring(0, 10);
+        }
     }
     submitForm() {
         //let m = new Member('',false);
@@ -48,6 +51,9 @@ export class PaymentComponent implements OnInit {
         this.payments.push(p);
     }
     public onPaymentTable(pay :IPayment){
+        this.mode= "Save";
+        this.pay = pay;
+/*
         if(event.target["id"]=== "Select")
         {
             this.mode = "Save";
@@ -67,10 +73,11 @@ export class PaymentComponent implements OnInit {
                 this.payments.splice(index, 1);
             }
         }
+*/
 
     }
     ngOnInit(){
-        this.mode = "";
+        this.mode = "Add";
     }
 }
 

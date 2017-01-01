@@ -8,33 +8,145 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require("@angular/core");
-var member_model_1 = require("./member.model");
-var angularfire2_1 = require("angularfire2");
+var core_1 = require('@angular/core');
+var member_model_1 = require('./member.model');
+var payment_component_1 = require('./payment.component');
+var router_1 = require('@angular/router');
+var memberNJS_service_1 = require("./memberNJS.service");
+//import { AngularFire, FirebaseListObservable } from 'angularfire2';
 var MemberlistComponent = (function () {
-    function MemberlistComponent(af) {
+    //  memberlist: FirebaseListObservable<any[]>;
+    function MemberlistComponent(r, ms) {
+        this.r = r;
+        this.ms = ms;
+        this.mode = "Add";
+        this.router = r;
+        this.memservice = ms;
         this.showCompleted = true;
-        this.member = new member_model_1.Member('Add me to list!', false);
-        this.memberlist = af.database.list('./members');
+        this.membercount = 0;
+        this.firstNameFilter = "";
+        this.lastNameFilter = "";
+        this.activeFilter = false;
+        this.selected = false;
+        //    this.memberlist = af.database.list('./members');
     }
-    MemberlistComponent.prototype.addMember = function () {
+    MemberlistComponent.prototype.getPayments = function () {
+        if (this.payments == null)
+            this.payments = new Array();
+        return this.payments;
+    };
+    MemberlistComponent.prototype.getExtended = function () {
+        if (this.ems == null)
+            this.ems = new Array();
+        return this.ems;
+    };
+    MemberlistComponent.prototype.submitForm = function () {
         //let m = new Member('',false);
-        this.memberlist.push(this.member);
+        //
+        if (this.mode === "Add") {
+            this.memberlist.push(this.member);
+            this.member.index = this.memberlist.length;
+            var d = new Date();
+            var id = d.toString();
+            this.memservice.putDoc(this.member);
+        }
+        else {
+            this.memservice.putDoc(this.member);
+        }
         this.member = new member_model_1.Member('', false);
-        this.member.clear();
+        this.mode = "Add";
     };
     MemberlistComponent.prototype.delMember = function (i) {
-        /*let m = memberlist[i];
-        this.memberlist.remove(memberlist[i].email)*/
+        var res;
+        this.memberlist[i].delete();
     };
+    MemberlistComponent.prototype.onUsingTable = function (al) {
+        this.member = al;
+        this.mode = "Save";
+        this.ems = this.member.ExtendedMembers;
+        this.payments = this.member.payments;
+        this.selected = true;
+        /*
+        if(event.target["id"] === "Select")
+        {
+            this.member = al;
+            this.mode = "Save";
+
+        }
+        if(event.target["id"] === "Payments")
+        {
+            if(al.payments == null || al.payments.length == 0)
+            {
+                let newpay = {receivedDate: new Date(), amount: 0, type: "cash", targetDate: new Date(), active: false};
+                al.payments.push(newpay);
+            }
+            this.payments = al.payments;
+        }
+
+        else if (event.target["id"]==="Remove"){
+            al.delete();
+        }
+        if(event.target["id"]==="ems"){
+            //redirectTo: '/dashboard'
+            localStorage.setItem('member',JSON.stringify(al));
+            this.router.navigate(['/extendedMembers']);
+            //this.router.navigate(['/extendedMembers', 'member']);
+        }*/
+    };
+    /* ngOnDestroy(){
+         localStorage.setItem('members', JSON.stringify(this.memberlist));
+         localStorage.setItem('members', JSON.stringify(new Date().getTime()));
+     }*/
+    MemberlistComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        var res;
+        //Here we do the initial call to get all of the id's from the database.
+        //we are making the assumption that the data is in  a format we can use. validation is not yet implemented
+        this.memberlist = new Array();
+        if (this.from === 'extended') {
+            res = localStorage.getItem('members');
+            if (res != null && res.indexOf('phone') > 0) {
+                this.from = 'extended'; //because local storage failed somehow
+            }
+            else {
+                this.memberlist = new Array();
+                this.member = new member_model_1.Member('', false);
+            }
+        }
+        if (this.from !== 'extended') {
+            this.ms.getAllDocs().subscribe(function (r1) {
+                _this.memberlist = r1;
+            });
+        }
+        /*
+           res = localStorage.getItem('members');
+           if(res != null && res.indexOf('phone') > 0) {
+               this.memberlist = JSON.parse(res);
+               this.member = this.memberlist[0];
+           }
+           else{
+               this.memberlist = new Array<Member>();
+               this.member = new Member('',false);
+   
+           }
+          */
+        this.member = new member_model_1.Member('', false);
+        this.membercount = this.memberlist.length;
+    };
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], MemberlistComponent.prototype, "from", void 0);
+    MemberlistComponent = __decorate([
+        core_1.Component({
+            selector: 'as-memberlist',
+            providers: [memberNJS_service_1.MemberNJSService, payment_component_1.PaymentComponent],
+            templateUrl: 'app/members/memberlist.html',
+            styleUrls: ['app/members/member.css']
+        }), 
+        __metadata('design:paramtypes', [router_1.Router, memberNJS_service_1.MemberNJSService])
+    ], MemberlistComponent);
     return MemberlistComponent;
 }());
-MemberlistComponent = __decorate([
-    core_1.Component({
-        selector: 'as-memberlist',
-        templateUrl: 'memberlist.html'
-    }),
-    __metadata("design:paramtypes", [angularfire2_1.AngularFire])
-], MemberlistComponent);
 exports.MemberlistComponent = MemberlistComponent;
 //# sourceMappingURL=memberlist.component.js.map

@@ -5,8 +5,11 @@ function __export(m) {
 /**
  * Created by fox21 on 12/15/2016.
  */
-__export(require("./member.model"));
-__export(require("./memberlist.component"));
-__export(require("./memberlist.routes"));
-__export(require("./memberlist.module"));
+__export(require('./member.model'));
+__export(require('./memberlist.component'));
+__export(require('./memberlist.routes'));
+__export(require('./filter.pipe'));
+__export(require('./memberlist.module'));
+__export(require('./ExtendedMembers.component'));
+//export * from './extendedmembers.routes';
 //# sourceMappingURL=index.js.map

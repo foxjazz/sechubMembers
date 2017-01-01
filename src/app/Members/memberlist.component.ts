@@ -29,6 +29,7 @@ export class MemberlistComponent implements OnInit{
     activeFilter: boolean;
     firstNameFilter: string;
     lastNameFilter: string;
+    selected: boolean;
     private list: Member[];
     private memservice: MemberNJSService;
     private showCompleted: Boolean;
@@ -42,6 +43,7 @@ export class MemberlistComponent implements OnInit{
         this.firstNameFilter = "";
         this.lastNameFilter="";
         this.activeFilter= false;
+        this.selected = false;
     //    this.memberlist = af.database.list('./members');
     }
     getPayments(): Array<IPayment>{
@@ -64,7 +66,7 @@ export class MemberlistComponent implements OnInit{
             this.member.index = this.memberlist.length;
             let d = new Date();
             let id = d.toString();
-            this.member = this.memservice.putDoc(this.member);
+            this.memservice.putDoc(this.member);
         }
         else
         {
@@ -85,6 +87,7 @@ export class MemberlistComponent implements OnInit{
         this.mode = "Save";
         this.ems = this.member.ExtendedMembers;
         this.payments = this.member.payments;
+        this.selected = true;
         /*
         if(event.target["id"] === "Select")
         {

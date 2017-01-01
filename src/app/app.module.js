@@ -21,6 +21,7 @@ var login_module_1 = require('./login/login.module');
 var signin_module_1 = require('./signin/signin.module');
 var forms_1 = require('@angular/forms');
 var region_module_1 = require('./regions/region.module');
+var memberlist_module_1 = require("./Members/memberlist.module");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -34,6 +35,7 @@ var AppModule = (function () {
                 home_module_1.HomeModule,
                 todolist_module_1.TodolistModule,
                 login_module_1.LoginModule,
+                memberlist_module_1.MemberlistModule,
                 signin_module_1.SignInModule,
                 app_routing_1.routing,
                 forms_1.FormsModule,
