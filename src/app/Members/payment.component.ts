@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 
-import {IPayment} from './member.model';
+import {IPayment, Payment} from './member.model';
 //import { AngularFire, FirebaseListObservable } from 'angularfire2';
 
 @Component({
@@ -17,17 +17,24 @@ export class PaymentComponent implements OnInit {
         else {
             this.pay = this.payments[0];
         }
-        this.mode = "";
+        this.paymode = "";
 
     }
     @Input()
     payments: Array<IPayment>;
     pay: IPayment;
-    mode: string;
+    paymode: string;
+    datetry: any;
     set humanDate(e){
-        let ee = e.split('-');
+        let ee = e.split('/');
+
+        //let d = new Date(e);
+
         let d = new Date(Date.UTC(Number(ee[0]), Number(ee[1])-1, Number(ee[2])));
-        this.pay.receivedDate.setFullYear(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+        this.pay.receivedDate = d;
+
+
+        //this.pay.receivedDate.setFullYear(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
     }
 
     get humanDate(){
@@ -37,47 +44,30 @@ export class PaymentComponent implements OnInit {
         }
     }
     submitForm() {
-        //let m = new Member('',false);
-        //
-        if(this.mode.length === 0)
-            return;
-        if(this.mode === "Add") {
-            this.payments.push(this.pay);
+
+        if(this.paymode === "Add") {
+            console.log('adding');
+            this.payments.push(Object.assign({}, this.pay));
         }
-        this.pay = {receivedDate: new Date(), amount: 0, type: "cash", targetDate: new Date(), active: false};
-        this.mode = "Add";
+        this.pay = new Payment();
+        this.paymode = "Add";
+        console.log('finished submit');
     }
-    public addPayment(p: IPayment){
-        this.payments.push(p);
-    }
+
     public onPaymentTable(pay :IPayment){
-        this.mode= "Save";
+        this.paymode= "Save";
         this.pay = pay;
-/*
-        if(event.target["id"]=== "Select")
-        {
-            this.mode = "Save";
-            //let d = new Date(pay.receivedDate);
-            this.pay = pay;
-            //this.pay.receivedDate = d;
-        }
-        if(event.target["id"]=== "Add")
-        {
-            let newpay = {receivedDate: new Date(), amount: 0, type: "cash", targetDate: new Date(), active: false};
-            this.payments.push(newpay);
-        }
-        else if(event.target["id"]==="Delete")
-        {
-            let index = this.payments.indexOf(pay, 0);
-            if (index > -1) {
-                this.payments.splice(index, 1);
-            }
-        }
-*/
 
     }
     ngOnInit(){
-        this.mode = "Add";
+        this.paymode = "Add";
+/*
+        for (let p of this.payments)
+        {
+            let d = new Date(p.receivedDate.valueOf());
+            p.receivedDateString = d.toISOString();
+        }
+*/
     }
 }
 

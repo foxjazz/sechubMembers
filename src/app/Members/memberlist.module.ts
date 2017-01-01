@@ -7,6 +7,7 @@ import {ExtendedMembersComponent} from "./ExtendedMembers.component";
 import {FilterPipe} from "./filter.pipe";
 import {HttpModule} from "@angular/http";
 import {MaintenanceComponent} from "./maintenance.component";
+import {EmsComponent} from "./ems.component";
  //import { AngularFireModule } from 'angularfire2';
  export const firebaseConfig = {
  apiKey: 'AIzaSyD3UeQygrWX3JWL3o9DWe8c-7r-rF1KD30',
@@ -26,7 +27,8 @@ import {MaintenanceComponent} from "./maintenance.component";
         ExtendedMembersComponent,
         MemberlistComponent,
         FilterPipe,
-        MaintenanceComponent
+        MaintenanceComponent,
+        EmsComponent
     ],
     imports: [
         FormsModule,
@@ -37,6 +39,7 @@ import {MaintenanceComponent} from "./maintenance.component";
         MemberlistComponent,
         MaintenanceComponent,
         ExtendedMembersComponent,
+        EmsComponent,
         FilterPipe
     ]
 })

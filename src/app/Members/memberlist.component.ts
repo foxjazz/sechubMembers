@@ -4,6 +4,7 @@ import {Member, IPayment, ExtendedMember, AllIds} from './member.model';
 import {PaymentComponent} from './payment.component';
 import {ActivatedRoute, Params, Router}   from '@angular/router';
 import {MemberNJSService} from "./memberNJS.service";
+import {EmsComponent} from "./ems.component";
 
 
 //import { AngularFire, FirebaseListObservable } from 'angularfire2';
@@ -11,7 +12,7 @@ import {MemberNJSService} from "./memberNJS.service";
 @Component({
 
     selector: 'as-memberlist',
-    providers: [MemberNJSService,PaymentComponent],
+    providers: [MemberNJSService,PaymentComponent, EmsComponent],
     templateUrl: 'app/members/memberlist.html',
     styleUrls: ['app/members/member.css']
 })

@@ -52,15 +52,21 @@
                     </div>
                     <div class="submit">
                         <button type="submit" class="btn-default">{{mode}}</button>
-                        <label>first Name: {{firstName}}</label>
                     </div>
                     <!--<label><input type="checkbox" [(ngModel)]="showCompleted" name="memberCompleted"> show completed</label>-->
                 </form>
             </div>
         </div>
         <div class="col-md-6">
-            <as-payment *ngIf="selected" [payments]="getPayments()"></as-payment>
+            <div>
+                <as-extended *ngIf="selected" [ems]="getExtended()"></as-extended>
+            </div>
+            <div>
+                <as-payment *ngIf="selected" [payments]="getPayments()"></as-payment>
+            </div>
+
         </div>
+
     </div>
     <div class="row">
         <div class="col-md-12">

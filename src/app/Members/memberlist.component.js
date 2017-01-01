@@ -13,6 +13,7 @@ var member_model_1 = require('./member.model');
 var payment_component_1 = require('./payment.component');
 var router_1 = require('@angular/router');
 var memberNJS_service_1 = require("./memberNJS.service");
+var ems_component_1 = require("./ems.component");
 //import { AngularFire, FirebaseListObservable } from 'angularfire2';
 var MemberlistComponent = (function () {
     //  memberlist: FirebaseListObservable<any[]>;
@@ -140,7 +141,7 @@ var MemberlistComponent = (function () {
     MemberlistComponent = __decorate([
         core_1.Component({
             selector: 'as-memberlist',
-            providers: [memberNJS_service_1.MemberNJSService, payment_component_1.PaymentComponent],
+            providers: [memberNJS_service_1.MemberNJSService, payment_component_1.PaymentComponent, ems_component_1.EmsComponent],
             templateUrl: 'app/members/memberlist.html',
             styleUrls: ['app/members/member.css']
         }), 

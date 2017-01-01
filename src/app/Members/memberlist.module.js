@@ -17,6 +17,7 @@ var ExtendedMembers_component_1 = require("./ExtendedMembers.component");
 var filter_pipe_1 = require("./filter.pipe");
 var http_1 = require("@angular/http");
 var maintenance_component_1 = require("./maintenance.component");
+var ems_component_1 = require("./ems.component");
 //import { AngularFireModule } from 'angularfire2';
 exports.firebaseConfig = {
     apiKey: 'AIzaSyD3UeQygrWX3JWL3o9DWe8c-7r-rF1KD30',
@@ -40,7 +41,8 @@ var MemberlistModule = (function () {
                 ExtendedMembers_component_1.ExtendedMembersComponent,
                 index_1.MemberlistComponent,
                 filter_pipe_1.FilterPipe,
-                maintenance_component_1.MaintenanceComponent
+                maintenance_component_1.MaintenanceComponent,
+                ems_component_1.EmsComponent
             ],
             imports: [
                 forms_1.FormsModule,
@@ -51,6 +53,7 @@ var MemberlistModule = (function () {
                 index_1.MemberlistComponent,
                 maintenance_component_1.MaintenanceComponent,
                 ExtendedMembers_component_1.ExtendedMembersComponent,
+                ems_component_1.EmsComponent,
                 filter_pipe_1.FilterPipe
             ]
         }), 

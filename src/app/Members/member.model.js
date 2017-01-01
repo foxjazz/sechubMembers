@@ -1,4 +1,13 @@
 "use strict";
+var Payment = (function () {
+    function Payment() {
+        this.type = 'cash';
+        this.amount = 0;
+        this.receivedDate = new Date();
+    }
+    return Payment;
+}());
+exports.Payment = Payment;
 var ExtendedMember = (function () {
     function ExtendedMember() {
     }
