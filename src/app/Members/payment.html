@@ -17,6 +17,7 @@
         </div>
         <div class="submit">
             <button type="submit" class="btn-custom">{{paymode}}</button>
+            <button *ngIf="paymode === 'Save'" type="button" class="btn-custom" (click)="onDelete()">Delete</button>
         </div>
 
     </form>

@@ -1,13 +1,10 @@
-            <div class="deal">
-                form data  email   {{member.email}}
-            </div>
             <div class="form-group">
                 <form (submit)="submitForm()" #memberForm="ngForm">
 
                     <!--<span [hidden]="member.email.valid" class="badge badge-warning">Required</span>-->
                     <div class="form-inline">
-                        <label for="member">Email</label>
-                        <input required [(ngModel)]="em.email" id="member" name="memberName" type="text" class="form-control" size="20">
+                        <label for="email">Email</label>
+                        <input required [(ngModel)]="em.email" id="email" name="email" type="text" class="form-control" size="15">
                     </div>
                     <div class="form-inline">
                         <label for="fn">First Name</label>

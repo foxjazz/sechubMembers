@@ -15,6 +15,7 @@ export class EmsComponent implements OnInit {
             this.em = new ExtendedMember();
             this.ems.push(this.em);
         }*/
+
     }
     @Input()
     ems: Array<ExtendedMember>;
@@ -39,6 +40,7 @@ export class EmsComponent implements OnInit {
     }
     ngOnInit(){
         this.mode = "Add";
+        this.em = new ExtendedMember();
         /*
          for (let p of this.payments)
          {

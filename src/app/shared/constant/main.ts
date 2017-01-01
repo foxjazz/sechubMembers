@@ -1,5 +1,5 @@
 export const MAIN = {
     APP: {
-        BRAND: 'Quick Auth Starter'
+        BRAND: 'Secular Hub Memberships'
     }
 };

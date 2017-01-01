@@ -1,7 +1,7 @@
 "use strict";
 exports.MAIN = {
     APP: {
-        BRAND: 'Quick Auth Starter'
+        BRAND: 'Secular Hub Memberships'
     }
 };
 //# sourceMappingURL=main.js.map

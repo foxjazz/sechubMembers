@@ -10,6 +10,4 @@ __export(require('./memberlist.component'));
 __export(require('./memberlist.routes'));
 __export(require('./filter.pipe'));
 __export(require('./memberlist.module'));
-__export(require('./ExtendedMembers.component'));
-//export * from './extendedmembers.routes';
 //# sourceMappingURL=index.js.map

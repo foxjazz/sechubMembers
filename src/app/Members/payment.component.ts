@@ -53,7 +53,13 @@ export class PaymentComponent implements OnInit {
         this.paymode = "Add";
         console.log('finished submit');
     }
-
+    onDelete(){
+        let pay = this.pay;
+        let index = this.payments.indexOf(pay, 0);
+        if (index > -1) {
+            this.payments.splice(index, 1);
+        }
+    }
     public onPaymentTable(pay :IPayment){
         this.paymode= "Save";
         this.pay = pay;

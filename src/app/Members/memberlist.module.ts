@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { MemberlistComponent } from './index';
 import { PaymentComponent } from './payment.component';
-import {ExtendedMembersComponent} from "./ExtendedMembers.component";
 import {FilterPipe} from "./filter.pipe";
 import {HttpModule} from "@angular/http";
 import {MaintenanceComponent} from "./maintenance.component";
@@ -24,7 +23,6 @@ import {EmsComponent} from "./ems.component";
 @NgModule({
     declarations: [
         PaymentComponent,
-        ExtendedMembersComponent,
         MemberlistComponent,
         FilterPipe,
         MaintenanceComponent,
@@ -38,7 +36,6 @@ import {EmsComponent} from "./ems.component";
     exports: [
         MemberlistComponent,
         MaintenanceComponent,
-        ExtendedMembersComponent,
         EmsComponent,
         FilterPipe
     ]

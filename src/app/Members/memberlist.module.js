@@ -13,7 +13,6 @@ var platform_browser_1 = require('@angular/platform-browser');
 var forms_1 = require('@angular/forms');
 var index_1 = require('./index');
 var payment_component_1 = require('./payment.component');
-var ExtendedMembers_component_1 = require("./ExtendedMembers.component");
 var filter_pipe_1 = require("./filter.pipe");
 var http_1 = require("@angular/http");
 var maintenance_component_1 = require("./maintenance.component");
@@ -38,7 +37,6 @@ var MemberlistModule = (function () {
         core_1.NgModule({
             declarations: [
                 payment_component_1.PaymentComponent,
-                ExtendedMembers_component_1.ExtendedMembersComponent,
                 index_1.MemberlistComponent,
                 filter_pipe_1.FilterPipe,
                 maintenance_component_1.MaintenanceComponent,
@@ -52,7 +50,6 @@ var MemberlistModule = (function () {
             exports: [
                 index_1.MemberlistComponent,
                 maintenance_component_1.MaintenanceComponent,
-                ExtendedMembers_component_1.ExtendedMembersComponent,
                 ems_component_1.EmsComponent,
                 filter_pipe_1.FilterPipe
             ]
