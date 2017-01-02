@@ -1,6 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component,EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 import {IPayment, Payment, ExtendedMember} from './member.model';
+
 //import { AngularFire, FirebaseListObservable } from 'angularfire2';
 
 @Component({
@@ -15,13 +16,16 @@ export class EmsComponent implements OnInit {
             this.em = new ExtendedMember();
             this.ems.push(this.em);
         }*/
-
+        this.usermode = "normal";
     }
     @Input()
     ems: Array<ExtendedMember>;
+    @Output() OnSaved = new EventEmitter<boolean>();
+    //@Output() OnSaved = new EventEmitter<boolean>();
     em: ExtendedMember;
+    emd: ExtendedMember;
     mode: string;
-    datetry: any;
+    usermode: string;
 
     submitForm() {
 
@@ -29,25 +33,45 @@ export class EmsComponent implements OnInit {
             console.log('adding');
             this.ems.push(Object.assign({}, this.em));
         }
-        this.em = new ExtendedMember();
+        else{
+            this.Delete(this.emd);
+            this.ems.push(this.em);
+        }
         this.mode = "Add";
-        console.log('finished submit');
+        this.usermode = "normal";
+        this.OnSaved.emit(true);
+    }
+
+    Delete(p: ExtendedMember){
+        let index = this.ems.indexOf(p, 0);
+        if (index > -1) {
+            this.ems.splice(index, 1);
+        }
+    }
+    onDelete(){
+        let index = this.ems.indexOf(this.emd, 0);
+        if (index > -1) {
+            this.ems.splice(index, 1);
+        }
+    }
+
+    onEdit(){
+        this.usermode = 'screenMember';
+    }
+    onAdd(){
+        this.em = new ExtendedMember();
+        this.usermode = 'edit';
+    }
+    onDiscard(){
+        this.usermode = 'normal';
     }
     public onUsingTable(em :ExtendedMember){
-        this.mode= "Save";
-        this.em = em;
-
+        this.em = Object.assign({},em);
+        this.emd = em;
+            this.mode= "Save";
     }
     ngOnInit(){
         this.mode = "Add";
-        this.em = new ExtendedMember();
-        /*
-         for (let p of this.payments)
-         {
-         let d = new Date(p.receivedDate.valueOf());
-         p.receivedDateString = d.toISOString();
-         }
-         */
     }
 }
 

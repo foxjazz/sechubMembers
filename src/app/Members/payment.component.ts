@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 import {IPayment, Payment, Member} from './member.model';
 //import { AngularFire, FirebaseListObservable } from 'angularfire2';
@@ -22,25 +22,19 @@ export class PaymentComponent implements OnInit {
     }
     @Input()
     payments: Array<IPayment>;
-    @Input()
-    member: Member;
+    @Output() OnSaved = new EventEmitter<boolean>();
+
     pay: IPayment;
+    payd: IPayment;
     paymode: string;
     receivedDateFormatted: string;
     datetry: any;
     usermode: string;
     set humanDate(e){
         let ee = e.split('/');
-
-        //let d = new Date(e);
-
         let d = new Date(Date.UTC(Number(ee[0]), Number(ee[1])-1, Number(ee[2])));
         this.pay.receivedDate = d;
-
-
-        //this.pay.receivedDate.setFullYear(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
     }
-
     get humanDate(){
         if(this.pay != null) {
             let d = new Date(this.pay.receivedDate.valueOf());
@@ -54,14 +48,14 @@ export class PaymentComponent implements OnInit {
             this.payments.push(this.pay);
         }
         else{
-            let newpay = Object.assign({},this.pay);
-            this.Delete(this.pay);
-            this.payments.push(newpay);
+            this.Delete(this.payd);
+            this.payments.push(this.pay);
             this.payments = this.payments.sort((l,r) => {if (l.receivedDate < r.receivedDate) return -1; if(l.receivedDate > r.receivedDate) return 1; else return 0;});
         }
         this.pay = new Payment();
         this.paymode = "Add";
-
+        this.usermode = "normal";
+        this.OnSaved.emit(true);
         console.log('finished submit');
     }
     Delete(p: Payment){
@@ -91,6 +85,7 @@ export class PaymentComponent implements OnInit {
     }
     public onPaymentTable(pay :IPayment){
         this.pay = Object.assign({}, pay);
+        this.payd = pay;
         this.paymode= "Save";
     }
     ngOnInit(){

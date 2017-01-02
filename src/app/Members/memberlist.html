@@ -9,7 +9,7 @@
   <div class="panel-body">
       <div *ngIf="usermode==='normal'" class="row">
           <div class="col-md-6">
-              <div>
+              <div class="h250">
                   <div>
                   Name: {{member.firstName}} {{member.lastName}}
                   </div>
@@ -29,15 +29,19 @@
                   </div>
               </div>
           </div>
+          <div class="clearfix">
+              <as-extended *ngIf="selected" [ems]="getExtended()" (OnSaved)="onSave($event)"></as-extended>
+          </div>
           <div class="col-md-6">
-              <div>
-                  <as-extended *ngIf="selected" [ems]="getExtended()"></as-extended>
-              </div>
+              <as-payment *ngIf="selected" [payments]="getPayments()" (OnSaved)="onSave($event)"></as-payment>
           </div>
     </div>
+<!--
     <div *ngIf="usermode==='normal'" class="row">
-        <as-payment *ngIf="selected" [payments]="getPayments()" [member]="getMember()"></as-payment>
+        <as-payment *ngIf="selected" [payments]="getPayments()" (OnSaved)="onSave($event)"></as-payment>
+
     </div>
+-->
 
       <div *ngIf="usermode==='normal'" class="row">
         <div class="col-md-4">

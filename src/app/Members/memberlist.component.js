@@ -53,7 +53,6 @@ var MemberlistComponent = (function () {
             this.member.index = this.memberlist.length;
             var d = new Date();
             var id = d.toString();
-            this.memservice.putDoc(this.member);
         }
         else {
             //todo here remove and add the this.member to the list
@@ -89,11 +88,16 @@ var MemberlistComponent = (function () {
         this.member = new member_model_1.Member('', false);
         this.mode = "Add";
         this.usermode = "normal";
+        this.memservice.putDoc(this.member);
     };
     /* delMember(i: number) {
          let res: string;
          this.memberlist[i].delete();
      }*/
+    MemberlistComponent.prototype.onSave = function (b) {
+        console.log("emitted from output");
+        this.memservice.putDoc(this.member);
+    };
     MemberlistComponent.prototype.onEdit = function () {
         this.usermode = 'screenMember';
     };

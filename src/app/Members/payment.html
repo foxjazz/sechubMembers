@@ -10,7 +10,7 @@
         </div>
         <div>
             <button type="button" class="btn-custom" (click)="onAdd()">Add</button>
-            <button *ngIf="mode==='Save'" type="button" class="btn-custom" (click)="onEdit()">Edit</button>
+            <button *ngIf="paymode==='Save'" type="button" class="btn-custom" (click)="onEdit()">Edit</button>
         </div>
         </div>
         <form *ngIf="usermode!=='normal'" (submit)="submitForm()" #memberForm="ngForm">

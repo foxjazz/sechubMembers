@@ -4,6 +4,10 @@
 #scrolltableskinny { margin-top: 20px; height: 100px; overflow: auto; }
 #scrolltableskinny th div { position: absolute; margin-top: -20px; }
 
+.h250{
+    height: 250px;
+}
+
 .btn-custom {
     background: #3498db;
     background-image: -webkit-linear-gradient(top, #3498db, #2980b9);

@@ -73,7 +73,7 @@ export class MemberlistComponent implements OnInit{
             this.member.index = this.memberlist.length;
             let d = new Date();
             let id = d.toString();
-            this.memservice.putDoc(this.member);
+
         }
         else
         {
@@ -107,13 +107,17 @@ export class MemberlistComponent implements OnInit{
         this.member = new Member('', false);
         this.mode = "Add";
         this.usermode = "normal";
+        this.memservice.putDoc(this.member);
     }
 
    /* delMember(i: number) {
         let res: string;
         this.memberlist[i].delete();
     }*/
-
+    onSave(b: boolean){
+        console.log("emitted from output");
+        this.memservice.putDoc(this.member);
+    }
     onEdit(){
         this.usermode = 'screenMember';
     }
