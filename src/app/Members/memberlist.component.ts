@@ -32,6 +32,7 @@ export class MemberlistComponent implements OnInit{
     lastNameFilter: string;
     selected: boolean;
     usermode: string;
+    bug: string;
     private list: Member[];
     private memservice: MemberNJSService;
     private showCompleted: Boolean;
@@ -77,7 +78,7 @@ export class MemberlistComponent implements OnInit{
             let newmember = Object.assign({},this.member);
             this.memberlist.splice(this.member.index, 1);
             this.memberlist.push(newmember);
-            this.memservice.testSave();
+
             this.memservice.putDoc(newmember);
             for (let i = 0; i < this.memberlist.length; i++)
             {
@@ -113,6 +114,7 @@ export class MemberlistComponent implements OnInit{
         this.ems = this.member.ExtendedMembers;
         this.payments = this.member.payments;
         this.selected = true;
+
         /*
         if(event.target["id"] === "Select")
         {

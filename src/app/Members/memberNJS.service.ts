@@ -11,6 +11,7 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class MemberNJSService
 {
+    extractdata: string;
     private http;
     constructor(private h: Http)
     {
@@ -29,44 +30,38 @@ export class MemberNJSService
             .map((res: Member) => res);
     }
     private q2: Array<Member>;
-    private save(uri: string,data: string) : any{
-        // this won't actually work because the StarWars API doesn't
-        // is read-only. But it would look like this:
 
-        let ret = new Member('',false);
-
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions( { headers: headers } );
-        return this.http.post(uri, data, options).map(x => x.json());
-/*
-        return Observable.from(this.q2).flatMap(res => {
-            this.http.post(uri, data, options)
-                .do((res: Response) => {
-                    let js = res.json();
-                    let m: Member;
-                    m= JSON.parse(data);
-                    m._rev = js.rev;
-                    ret = m;
-
-                });
-
-            });
-*/
-
+    private handleError (error: Response | any) {
+        // In a real world app, we might use a remote logging infrastructure
+        let errMsg: string;
+        if (error instanceof Response) {
+            const body = error.json() || '';
+            const err = body.error || JSON.stringify(body);
+            errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+        } else {
+            errMsg = error.message ? error.message : error.toString();
+        }
+        console.error(errMsg);
+        return Observable.throw(errMsg);
     }
-    public testSave(){
+    public testSave2(): Observable<any>{
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions( { headers: headers } );
         let uri = confignjs.hostlocal + '/couchSave';
-        let data = '{"testField:": "testVariable"';
-        this.http.post(uri, JSON.stringify(data), options).map(x => x.json())
-            .catch(alert(JSON.stringify(this)));
+        let obj = {"testField:": "testVariable"};
+        let data = JSON.stringify(obj);
+
+        return this.http.post(uri, data, options).map(x => console.log(x.json()))
+            .catch( this.handleError);
+    }
+    public testSave(){
+        this.testSave2().subscribe(m => console.log(JSON.stringify(m)));
     }
     public putDoc(member: Member) {
 
         let uri = confignjs.hostlocal + '/couchSave';
         let geturi = confignjs.hostlocal + '/couchGet';
-        let result =  this.save(uri,JSON.stringify(member));
+        let result =  this.save(uri,JSON.stringify(member)).subscribe(m => m.json());
         member._rev = result.rev;
         this.getDoc(member._id).subscribe(j => {
             member = j;
@@ -74,7 +69,15 @@ export class MemberNJSService
 
 
     };
+    private save(uri: string,data: string) : Observable<any>{
+        // this won't actually work because the StarWars API doesn't
+        // is read-only. But it would look like this:
+        let ret = new Member('',false);
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions( { headers: headers } );
+        return this.http.post(uri, data, options).map(x => x.json());
 
+    }
 
 
 }

@@ -57,7 +57,6 @@ var MemberlistComponent = (function () {
             var newmember = Object.assign({}, this.member);
             this.memberlist.splice(this.member.index, 1);
             this.memberlist.push(newmember);
-            this.memservice.testSave();
             this.memservice.putDoc(newmember);
             for (var i = 0; i < this.memberlist.length; i++) {
                 this.memberlist[i].index = i;
