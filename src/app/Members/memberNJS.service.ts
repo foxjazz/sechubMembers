@@ -61,11 +61,11 @@ export class MemberNJSService
 
         let uri = confignjs.hostlocal + '/couchSave';
         let geturi = confignjs.hostlocal + '/couchGet';
-        let result =  this.save(uri,JSON.stringify(member)).subscribe(m => m.json());
-        member._rev = result.rev;
-        this.getDoc(member._id).subscribe(j => {
+        let result =  this.save(uri,JSON.stringify(member)).subscribe(m => {member._rev = m.rev;});
+        //member._rev = result.rev;
+        /*this.getDoc(member._id).subscribe(j => {
             member = j;
-        });
+        });*/
 
 
     };
