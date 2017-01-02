@@ -19,11 +19,13 @@ export class PaymentComponent implements OnInit {
         }
         this.paymode = "";
         this.usermode = "normal";
+        this.ecol = "3";
     }
     @Input()
     payments: Array<IPayment>;
     @Output() OnSaved = new EventEmitter<boolean>();
 
+    ecol: string;
     pay: IPayment;
     payd: IPayment;
     paymode: string;
@@ -56,7 +58,9 @@ export class PaymentComponent implements OnInit {
         this.paymode = "Add";
         this.usermode = "normal";
         this.OnSaved.emit(true);
-        console.log('finished submit');
+        this.ecol = "3";
+
+
     }
     Delete(p: Payment){
         let index = this.payments.indexOf(p, 0);
@@ -73,11 +77,13 @@ export class PaymentComponent implements OnInit {
     }
 
     onEdit(){
-        this.usermode = 'screenMember';
+        this.usermode = 'edit';
+        this.ecol = "8";
     }
     onAdd(){
         this.pay =  {receivedDate: new Date(), amount: 0, type: "cash", targetDate: new Date(), active: false};
         this.usermode = 'edit';
+        this.ecol = "8";
     }
     onDiscard(){
         this.usermode = 'normal';

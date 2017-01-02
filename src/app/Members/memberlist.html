@@ -8,8 +8,8 @@
     </div>
   <div class="panel-body">
       <div *ngIf="usermode==='normal'" class="row">
-          <div class="col-md-6">
-              <div class="h250">
+          <div class="col-md-4">
+              <div class="h120" *ngIf="selected">
                   <div>
                   Name: {{member.firstName}} {{member.lastName}}
                   </div>
@@ -23,16 +23,27 @@
                   <div>
                     city: {{member.city}} {{member.state}}  {{member.zip}}
                   </div>
-                  <div>
-                      <button type="button" class="btn-custom" (click)="onAdd()">Add</button>
-                      <button *ngIf="mode==='Save'" type="button" class="btn-custom" (click)="onEdit()">Edit</button>
+<!--
+                  <div *ngIf="member.ExtendedMembers !== undefined && member.ExtendedMembers.length > 0">
+                      Family Members
+                      <ul *ngFor="let em of member.ExtendedMembers">
+                          <li>{{em.firstName}} {{em.lastName}} {{em.phone}}</li>
+                      </ul>
                   </div>
+-->
               </div>
+              <div>
+                  <button type="button" class="btn-custom" (click)="onAdd()">Add new member</button>
+                  <button *ngIf="mode==='Save'" type="button" class="btn-custom" (click)="onEdit()">Edit</button>
+              </div>
+
           </div>
-          <div class="clearfix">
+<!--
+          <div>
               <as-extended *ngIf="selected" [ems]="getExtended()" (OnSaved)="onSave($event)"></as-extended>
           </div>
-          <div class="col-md-6">
+-->
+          <div class="col-md-8">
               <as-payment *ngIf="selected" [payments]="getPayments()" (OnSaved)="onSave($event)"></as-payment>
           </div>
     </div>
