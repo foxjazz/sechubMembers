@@ -31,6 +31,7 @@ export class MemberlistComponent implements OnInit{
     firstNameFilter: string;
     lastNameFilter: string;
     selected: boolean;
+    usermode: string;
     private list: Member[];
     private memservice: MemberNJSService;
     private showCompleted: Boolean;
@@ -45,6 +46,7 @@ export class MemberlistComponent implements OnInit{
         this.lastNameFilter="";
         this.activeFilter= false;
         this.selected = false;
+        this.usermode = "normal";
     //    this.memberlist = af.database.list('./members');
     }
     getPayments(): Array<IPayment>{
@@ -71,20 +73,42 @@ export class MemberlistComponent implements OnInit{
         }
         else
         {
-            this.memservice.putDoc(this.member);
+            //todo here remove and add the this.member to the list
+            let newmember = Object.assign({},this.member);
+            this.memberlist.splice(this.member.index, 1);
+            this.memberlist.push(newmember);
+            this.memservice.testSave();
+            this.memservice.putDoc(newmember);
+            for (let i = 0; i < this.memberlist.length; i++)
+            {
+                this.memberlist[i].index = i;
+            }
+
         }
         this.member = new Member('', false);
         this.mode = "Add";
+        this.usermode = "normal";
     }
 
-    delMember(i: number) {
+   /* delMember(i: number) {
         let res: string;
         this.memberlist[i].delete();
+    }*/
 
+    onEdit(){
+        this.usermode = 'screenMember';
     }
-
+    onAdd(){
+        this.member = new Member('',false);
+        this.usermode = 'screenMember';
+    }
+    onDiscardMember(){
+        this.usermode = 'normal';
+        this.member = new Member('',false);
+        this.selected = false;
+    }
     public onUsingTable ( al: Member) {
-        this.member = al;
+        this.member = Object.assign({}, al);
         this.mode = "Save";
         this.ems = this.member.ExtendedMembers;
         this.payments = this.member.payments;
@@ -143,6 +167,10 @@ export class MemberlistComponent implements OnInit{
         if (this.from !== 'extended'){
             this.ms.getAllDocs().subscribe(r1 => {
                 this.memberlist = r1;
+                for (let i = 0; i < this.memberlist.length; i++)
+                {
+                    this.memberlist[i].index = i;
+                }
             });
 /*
             this.memservice.getAllDocs().subscribe(r1 => {

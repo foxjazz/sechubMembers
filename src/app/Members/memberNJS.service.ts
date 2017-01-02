@@ -54,6 +54,14 @@ export class MemberNJSService
 */
 
     }
+    public testSave(){
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions( { headers: headers } );
+        let uri = confignjs.hostlocal + '/couchSave';
+        let data = '{"testField:": "testVariable"';
+        this.http.post(uri, JSON.stringify(data), options).map(x => x.json())
+            .catch(alert(JSON.stringify(this)));
+    }
     public putDoc(member: Member) {
 
         let uri = confignjs.hostlocal + '/couchSave';

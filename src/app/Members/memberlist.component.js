@@ -29,6 +29,7 @@ var MemberlistComponent = (function () {
         this.lastNameFilter = "";
         this.activeFilter = false;
         this.selected = false;
+        this.usermode = "normal";
         //    this.memberlist = af.database.list('./members');
     }
     MemberlistComponent.prototype.getPayments = function () {
@@ -52,17 +53,38 @@ var MemberlistComponent = (function () {
             this.memservice.putDoc(this.member);
         }
         else {
-            this.memservice.putDoc(this.member);
+            //todo here remove and add the this.member to the list
+            var newmember = Object.assign({}, this.member);
+            this.memberlist.splice(this.member.index, 1);
+            this.memberlist.push(newmember);
+            this.memservice.testSave();
+            this.memservice.putDoc(newmember);
+            for (var i = 0; i < this.memberlist.length; i++) {
+                this.memberlist[i].index = i;
+            }
         }
         this.member = new member_model_1.Member('', false);
         this.mode = "Add";
+        this.usermode = "normal";
     };
-    MemberlistComponent.prototype.delMember = function (i) {
-        var res;
-        this.memberlist[i].delete();
+    /* delMember(i: number) {
+         let res: string;
+         this.memberlist[i].delete();
+     }*/
+    MemberlistComponent.prototype.onEdit = function () {
+        this.usermode = 'screenMember';
+    };
+    MemberlistComponent.prototype.onAdd = function () {
+        this.member = new member_model_1.Member('', false);
+        this.usermode = 'screenMember';
+    };
+    MemberlistComponent.prototype.onDiscardMember = function () {
+        this.usermode = 'normal';
+        this.member = new member_model_1.Member('', false);
+        this.selected = false;
     };
     MemberlistComponent.prototype.onUsingTable = function (al) {
-        this.member = al;
+        this.member = Object.assign({}, al);
         this.mode = "Save";
         this.ems = this.member.ExtendedMembers;
         this.payments = this.member.payments;
@@ -117,6 +139,9 @@ var MemberlistComponent = (function () {
         if (this.from !== 'extended') {
             this.ms.getAllDocs().subscribe(function (r1) {
                 _this.memberlist = r1;
+                for (var i = 0; i < _this.memberlist.length; i++) {
+                    _this.memberlist[i].index = i;
+                }
             });
         }
         /*

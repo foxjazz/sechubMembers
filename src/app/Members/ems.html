@@ -1,3 +1,7 @@
+<div>
+    <div>
+        <h1>Additional Family Selector</h1>
+    </div>
             <div class="form-group">
                 <form (submit)="submitForm()" #memberForm="ngForm">
 
@@ -16,6 +20,7 @@
                         <label for="addr">Address</label>
                         <input [(ngModel)]="em.address" id="addr" name="address" type="text" class="form-control" size="30">
                     </div>
+<!--
                     <div class="form-inline">
                         <label for="city">City</label>
                         <input [(ngModel)]="em.city" id="city" name="city" type="text" class="form-control" size="20">
@@ -24,6 +29,7 @@
                         <label for="zip">Zip</label>
                         <input [(ngModel)]="em.zip" id="zip" name="zip" type="text" class="form-control" size="10">
                     </div>
+-->
                     <div class="form-inline">
                         <label for="ph">Phone</label>
                         <input [(ngModel)]="em.phone" id="ph" name="phone" type="text" class="form-control" size="20">
@@ -39,6 +45,7 @@
                 <tr>
                     <th>first name</th>
                     <th>last name</th>
+                    <th>email</th>
 
                     <th class="makeroom">  </th>
                     <th>add</th>
@@ -49,6 +56,7 @@
 
                     <td> {{al.firstName}} </td>
                     <td> {{al.lastName}} </td>
+                    <td> {{al.email}} </td>
                     <td class="makeroom">  </td>
                     <td class="price"><button id="Select" class="btn">Select</button></td>
                     <td class="price"><button id="Remove" class="btn">Remove</button></td>
@@ -57,3 +65,4 @@
     <div>
         <button id="save" class="btn" (click)="saveChanges()">SAVE CHANGES</button>
     </div>
+</div>
