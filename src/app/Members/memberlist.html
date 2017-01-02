@@ -36,7 +36,7 @@
           </div>
     </div>
     <div *ngIf="usermode==='normal'" class="row">
-        <as-payment *ngIf="selected" [payments]="getPayments()"></as-payment>
+        <as-payment *ngIf="selected" [payments]="getPayments()" [member]="getMember()"></as-payment>
     </div>
 
       <div *ngIf="usermode==='normal'" class="row">

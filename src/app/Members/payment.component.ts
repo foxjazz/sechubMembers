@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 
-import {IPayment, Payment} from './member.model';
+import {IPayment, Payment, Member} from './member.model';
 //import { AngularFire, FirebaseListObservable } from 'angularfire2';
 
 @Component({
@@ -18,13 +18,17 @@ export class PaymentComponent implements OnInit {
             this.pay = this.payments[0];
         }
         this.paymode = "";
-
+        this.usermode = "normal";
     }
     @Input()
     payments: Array<IPayment>;
+    @Input()
+    member: Member;
     pay: IPayment;
     paymode: string;
+    receivedDateFormatted: string;
     datetry: any;
+    usermode: string;
     set humanDate(e){
         let ee = e.split('/');
 
@@ -47,11 +51,24 @@ export class PaymentComponent implements OnInit {
 
         if(this.paymode === "Add") {
             console.log('adding');
-            this.payments.push(Object.assign({}, this.pay));
+            this.payments.push(this.pay);
+        }
+        else{
+            let newpay = Object.assign({},this.pay);
+            this.Delete(this.pay);
+            this.payments.push(newpay);
+            this.payments = this.payments.sort((l,r) => {if (l.receivedDate < r.receivedDate) return -1; if(l.receivedDate > r.receivedDate) return 1; else return 0;});
         }
         this.pay = new Payment();
         this.paymode = "Add";
+
         console.log('finished submit');
+    }
+    Delete(p: Payment){
+        let index = this.payments.indexOf(p, 0);
+        if (index > -1) {
+            this.payments.splice(index, 1);
+        }
     }
     onDelete(){
         let pay = this.pay;
@@ -60,13 +77,26 @@ export class PaymentComponent implements OnInit {
             this.payments.splice(index, 1);
         }
     }
-    public onPaymentTable(pay :IPayment){
-        this.paymode= "Save";
-        this.pay = pay;
 
+    onEdit(){
+        this.usermode = 'screenMember';
+    }
+    onAdd(){
+        this.pay =  {receivedDate: new Date(), amount: 0, type: "cash", targetDate: new Date(), active: false};
+        this.usermode = 'edit';
+    }
+    onDiscard(){
+        this.usermode = 'normal';
+        this.pay =  {receivedDate: new Date(), amount: 0, type: "cash", targetDate: new Date(), active: false};
+    }
+    public onPaymentTable(pay :IPayment){
+        this.pay = Object.assign({}, pay);
+        this.paymode= "Save";
     }
     ngOnInit(){
         this.paymode = "Add";
+        this.payments = this.payments.sort((l,r) => {if (l.receivedDate < r.receivedDate) return -1; if(l.receivedDate > r.receivedDate) return 1; else return 0;});
+        this.receivedDateFormatted = this.pay.receivedDate.toISOString().substring(0, 10);
 /*
         for (let p of this.payments)
         {

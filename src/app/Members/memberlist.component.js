@@ -37,6 +37,9 @@ var MemberlistComponent = (function () {
             this.payments = new Array();
         return this.payments;
     };
+    MemberlistComponent.prototype.getMember = function () {
+        return this.member;
+    };
     MemberlistComponent.prototype.getExtended = function () {
         if (this.ems == null)
             this.ems = new Array();

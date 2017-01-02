@@ -55,6 +55,9 @@ export class MemberlistComponent implements OnInit{
             this.payments = new Array<IPayment>();
         return this.payments;
     }
+    getMember(): Member{
+        return this.member;
+    }
 
     getExtended(): Array<ExtendedMember>{
         if(this.ems == null)
