@@ -58,10 +58,27 @@ var MemberlistComponent = (function () {
             this.memberlist.splice(this.member.index, 1);
             this.memberlist.push(newmember);
             this.memservice.putDoc(newmember);
-            this.memberlist = this.memberlist.sort(function (left, right) { if (left.firstName < right.firstName)
-                return -1;
-            else
-                return 1; });
+            this.memberlist = this.memberlist.sort(function (left, right) {
+                var ln;
+                var rn;
+                if (left.firstName != null) {
+                    ln = left.firstName.toLowerCase();
+                }
+                else
+                    ln = "";
+                if (right.firstName != null) {
+                    rn = right.firstName.toLowerCase();
+                }
+                else
+                    rn = "";
+                //return (ln < rn) ? -1 : (ln > rn) ? 1: 0;
+                if (ln < rn)
+                    return -1;
+                if (ln > rn)
+                    return 1;
+                else
+                    return 0;
+            });
             for (var i = 0; i < this.memberlist.length; i++) {
                 this.memberlist[i].index = i;
             }
