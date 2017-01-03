@@ -13,7 +13,7 @@ var member_model_1 = require('./member.model');
 var payment_component_1 = require('./payment.component');
 var router_1 = require('@angular/router');
 var memberNJS_service_1 = require("./memberNJS.service");
-var ems_component_1 = require("./ems.component");
+//import {EmsComponent} from "./ems.component";
 //import { AngularFire, FirebaseListObservable } from 'angularfire2';
 var MemberlistComponent = (function () {
     //  memberlist: FirebaseListObservable<any[]>;
@@ -40,55 +40,54 @@ var MemberlistComponent = (function () {
     MemberlistComponent.prototype.getMember = function () {
         return this.member;
     };
-    MemberlistComponent.prototype.getExtended = function () {
-        if (this.ems == null)
-            this.ems = new Array();
-        return this.ems;
-    };
+    /*
+        getExtended(): Array<ExtendedMember>{
+            if(this.ems == null)
+                this.ems = new Array<ExtendedMember>();
+            return this.ems;
+        }
+    */
     MemberlistComponent.prototype.submitForm = function () {
         //let m = new Member('',false);
         //
         if (this.mode === "Add") {
             this.memberlist.push(this.member);
-            this.member.index = this.memberlist.length;
-            var d = new Date();
-            var id = d.toString();
         }
         else {
-            //todo here remove and add the this.member to the list
-            var newmember = Object.assign({}, this.member);
-            this.memberlist.splice(this.member.index, 1);
-            this.memberlist.push(newmember);
-            this.memservice.putDoc(newmember);
-            this.memberlist = this.memberlist.sort(function (left, right) {
-                var ln;
-                var rn;
-                if (left.firstName != null) {
-                    ln = left.firstName.toLowerCase();
-                }
-                else
-                    ln = "";
-                if (right.firstName != null) {
-                    rn = right.firstName.toLowerCase();
-                }
-                else
-                    rn = "";
-                //return (ln < rn) ? -1 : (ln > rn) ? 1: 0;
-                if (ln < rn)
-                    return -1;
-                if (ln > rn)
-                    return 1;
-                else
-                    return 0;
-            });
-            for (var i = 0; i < this.memberlist.length; i++) {
-                this.memberlist[i].index = i;
-            }
+            this.Delete(this.memberd); //referenced saved for possible deletes
+            this.memberlist.push(this.member);
         }
+        this.memberlist = this.memberlist.sort(function (left, right) {
+            var ln;
+            var rn;
+            if (left.firstName != null) {
+                ln = left.firstName.toLowerCase();
+            }
+            else
+                ln = "";
+            if (right.firstName != null) {
+                rn = right.firstName.toLowerCase();
+            }
+            else
+                rn = "";
+            //return (ln < rn) ? -1 : (ln > rn) ? 1: 0;
+            if (ln < rn)
+                return -1;
+            if (ln > rn)
+                return 1;
+            else
+                return 0;
+        });
         this.member = new member_model_1.Member('', false);
         this.mode = "Add";
         this.usermode = "normal";
         this.memservice.putDoc(this.member);
+    };
+    MemberlistComponent.prototype.Delete = function (p) {
+        var index = this.memberlist.indexOf(p, 0);
+        if (index > -1) {
+            this.memberlist.splice(index, 1);
+        }
     };
     /* delMember(i: number) {
          let res: string;
@@ -112,8 +111,9 @@ var MemberlistComponent = (function () {
     };
     MemberlistComponent.prototype.onUsingTable = function (al) {
         this.member = Object.assign({}, al);
+        this.memberd = al;
         this.mode = "Save";
-        this.ems = this.member.ExtendedMembers;
+        //        this.ems = this.member.ExtendedMembers;
         this.payments = this.member.payments;
         this.selected = true;
         /*
@@ -166,6 +166,15 @@ var MemberlistComponent = (function () {
         if (this.from !== 'extended') {
             this.ms.getAllDocs().subscribe(function (r1) {
                 //this.memberlist = r1;
+                for (var _i = 0, r1_1 = r1; _i < r1_1.length; _i++) {
+                    var em = r1_1[_i];
+                    if (em.payments != null)
+                        em.payments = em.payments.sort(function (l, r) { if (l.receivedDate < r.receivedDate)
+                            return 1; if (l.receivedDate > r.receivedDate)
+                            return -1;
+                        else
+                            return 0; });
+                }
                 _this.memberlist = r1.sort(function (left, right) {
                     var ln;
                     var rn;
@@ -179,7 +188,6 @@ var MemberlistComponent = (function () {
                     }
                     else
                         rn = "";
-                    //return (ln < rn) ? -1 : (ln > rn) ? 1: 0;
                     if (ln < rn)
                         return -1;
                     if (ln > rn)
@@ -187,9 +195,12 @@ var MemberlistComponent = (function () {
                     else
                         return 0;
                 });
-                for (var i = 0; i < _this.memberlist.length; i++) {
-                    _this.memberlist[i].index = i;
-                }
+                /*
+                                for (let i = 0; i < this.memberlist.length; i++)
+                                {
+                                    this.memberlist[i].index = i;
+                                }
+                */
             });
         }
         /*
@@ -204,7 +215,7 @@ var MemberlistComponent = (function () {
    
            }
           */
-        this.member = new member_model_1.Member('', false);
+        //this.member = new Member('',false);
         this.membercount = this.memberlist.length;
     };
     __decorate([
@@ -214,7 +225,7 @@ var MemberlistComponent = (function () {
     MemberlistComponent = __decorate([
         core_1.Component({
             selector: 'as-memberlist',
-            providers: [memberNJS_service_1.MemberNJSService, payment_component_1.PaymentComponent, ems_component_1.EmsComponent],
+            providers: [memberNJS_service_1.MemberNJSService, payment_component_1.PaymentComponent],
             templateUrl: 'app/members/memberlist.html',
             styleUrls: ['app/members/member.css']
         }), 

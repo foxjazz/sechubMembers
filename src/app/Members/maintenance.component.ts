@@ -1,6 +1,6 @@
 import {Component,  OnInit} from '@angular/core';
 
-import {Member, IPayment, ExtendedMember, AllIds} from './member.model';
+import {Member, IPayment, AllIds} from './member.model';
 import {PaymentComponent} from './payment.component';
 import {ActivatedRoute, Params, Router}   from '@angular/router';
 import {MemberNJSService} from "./memberNJS.service";
@@ -19,7 +19,7 @@ import {rules} from "./config";
 export class MaintenanceComponent implements OnInit {
     member: Member;
     payments: Array<IPayment>;
-    ems: Array<ExtendedMember>;
+    //ems: Array<ExtendedMember>;
     memberlist: Array<Member>;
     ms: MemberNJSService;
     temp: string;
@@ -129,7 +129,8 @@ export class MaintenanceComponent implements OnInit {
                         amount: p.amount,
                         type: '',
                         active: false,
-                        targetDate: undefined
+                        targetDate: undefined,
+                        receivedDateNumeric: 0
                     };
                     m.payments.push(pay);
                 }

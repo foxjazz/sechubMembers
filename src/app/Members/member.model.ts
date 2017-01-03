@@ -14,6 +14,7 @@ export interface IPayment {
     type: string;
     active: boolean;
     targetDate: Date;
+    receivedDateNumeric;
 }
 export class Payment implements IPayment{
     constructor(){
@@ -22,22 +23,14 @@ export class Payment implements IPayment{
         this.receivedDate = new Date();
     }
     receivedDate: Date;
+    receivedDateNumeric: number;
     //receivedDateString: string;
     amount: number;
     type: string;
     active: boolean;
     targetDate: Date;
 }
-export class ExtendedMember{
-    firstName: string;
-    lastName: string;
-    phone: string;
-    email: string;
-    address: string;
-    city: string;
-    state: string;
-    zip: string;
-}
+
 
 export class Member {
 
@@ -62,7 +55,8 @@ export class Member {
     targetDate: Date;
     Description: string;
     Notes: string;
-    ExtendedMembers: Array<ExtendedMember>;
+    isFamily: boolean;
+    //ExtendedMembers: Array<ExtendedMember>;
     payments: Array<IPayment>;
 
     constructor(email: string, done = false) {

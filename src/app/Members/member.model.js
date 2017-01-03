@@ -8,12 +8,6 @@ var Payment = (function () {
     return Payment;
 }());
 exports.Payment = Payment;
-var ExtendedMember = (function () {
-    function ExtendedMember() {
-    }
-    return ExtendedMember;
-}());
-exports.ExtendedMember = ExtendedMember;
 var Member = (function () {
     function Member(email, done) {
         if (done === void 0) { done = false; }

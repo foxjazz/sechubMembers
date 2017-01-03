@@ -12,7 +12,7 @@ import {IPayment, Payment, Member} from './member.model';
 export class PaymentComponent implements OnInit {
     constructor(){
         if(this.payments == null || this.payments.length === 0){
-            this.pay =  {receivedDate: new Date(), amount: 0, type: "cash", targetDate: new Date(), active: false};
+            this.pay =  {receivedDate: new Date(), amount: 0, type: "cash", targetDate: new Date(), active: false, receivedDateNumeric : 0};
         }
         else {
             this.pay = this.payments[0];
@@ -52,8 +52,8 @@ export class PaymentComponent implements OnInit {
         else{
             this.Delete(this.payd);
             this.payments.push(this.pay);
-            this.payments = this.payments.sort((l,r) => {if (l.receivedDate < r.receivedDate) return -1; if(l.receivedDate > r.receivedDate) return 1; else return 0;});
         }
+        this.payments = this.payments.sort((l,r) => {if (l.receivedDate < r.receivedDate) return 1; if(l.receivedDate > r.receivedDate) return -1; else return 0;});
         this.pay = new Payment();
         this.paymode = "Add";
         this.usermode = "normal";
@@ -81,13 +81,13 @@ export class PaymentComponent implements OnInit {
         this.ecol = "8";
     }
     onAdd(){
-        this.pay =  {receivedDate: new Date(), amount: 0, type: "cash", targetDate: new Date(), active: false};
+        this.pay =  {receivedDate: new Date(), amount: 0, type: "cash", targetDate: new Date(), active: false, receivedDateNumeric: 0};
         this.usermode = 'edit';
         this.ecol = "8";
     }
     onDiscard(){
         this.usermode = 'normal';
-        this.pay =  {receivedDate: new Date(), amount: 0, type: "cash", targetDate: new Date(), active: false};
+        this.pay =  {receivedDate: new Date(), amount: 0, type: "cash", targetDate: new Date(), active: false, receivedDateNumeric: 0};
     }
     public onPaymentTable(pay :IPayment){
         this.pay = Object.assign({}, pay);
@@ -96,8 +96,13 @@ export class PaymentComponent implements OnInit {
     }
     ngOnInit(){
         this.paymode = "Add";
-        this.payments = this.payments.sort((l,r) => {if (l.receivedDate < r.receivedDate) return -1; if(l.receivedDate > r.receivedDate) return 1; else return 0;});
-        this.receivedDateFormatted = this.pay.receivedDate.toISOString().substring(0, 10);
+        /*for(let p of this.payments)
+        {
+            let d = new Date(p.receivedDate.valueOf());
+            p.receivedDateNumeric = Number(d.getFullYear() + d.getUTCMonth() + d.getUTCDay());
+        }
+        this.payments = this.payments.sort((l,r) => {if (l.receivedDate < r.receivedDate) return 1; if(l.receivedDate > r.receivedDate) return -1; else return 0;});*/
+        //this.receivedDateFormatted = this.pay.receivedDate.toISOString().substring(0, 10);
 /*
         for (let p of this.payments)
         {

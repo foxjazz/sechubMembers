@@ -1,10 +1,11 @@
 import {Component, OnInit, Input} from '@angular/core';
 
-import {Member, IPayment, ExtendedMember, AllIds} from './member.model';
+import {Member, IPayment,  AllIds} from './member.model';
 import {PaymentComponent} from './payment.component';
 import {ActivatedRoute, Params, Router}   from '@angular/router';
 import {MemberNJSService} from "./memberNJS.service";
-import {EmsComponent} from "./ems.component";
+
+//import {EmsComponent} from "./ems.component";
 
 
 //import { AngularFire, FirebaseListObservable } from 'angularfire2';
@@ -12,7 +13,7 @@ import {EmsComponent} from "./ems.component";
 @Component({
 
     selector: 'as-memberlist',
-    providers: [MemberNJSService,PaymentComponent, EmsComponent],
+    providers: [MemberNJSService,PaymentComponent],
     templateUrl: 'app/members/memberlist.html',
     styleUrls: ['app/members/member.css']
 })
@@ -20,8 +21,9 @@ export class MemberlistComponent implements OnInit{
     @Input()
         from: string;
     member: Member;
+    memberd: Member;
     payments: Array<IPayment>;
-    ems: Array<ExtendedMember>;
+    //ems: Array<ExtendedMember>;
     memberlist: Array<Member>;
     mode = "Add";
     membercount: number;
@@ -59,57 +61,51 @@ export class MemberlistComponent implements OnInit{
         return this.member;
     }
 
+/*
     getExtended(): Array<ExtendedMember>{
         if(this.ems == null)
             this.ems = new Array<ExtendedMember>();
         return this.ems;
     }
+*/
 
     submitForm() {
         //let m = new Member('',false);
         //
         if(this.mode === "Add") {
             this.memberlist.push(this.member);
-            this.member.index = this.memberlist.length;
-            let d = new Date();
-            let id = d.toString();
-
         }
         else
         {
-            //todo here remove and add the this.member to the list
-            let newmember = Object.assign({},this.member);
-            this.memberlist.splice(this.member.index, 1);
-            this.memberlist.push(newmember);
-
-            this.memservice.putDoc(newmember);
-            this.memberlist = this.memberlist.sort((left,right) => {
-                let ln: string; let rn: string;
-                if(left.firstName != null) {
-                    ln = left.firstName.toLowerCase();
-                }
-                else ln = "";
-
-                if(right.firstName != null) {
-                    rn = right.firstName.toLowerCase();
-                }
-                else rn = "";
-                //return (ln < rn) ? -1 : (ln > rn) ? 1: 0;
-                if (ln < rn) return -1; if(ln > rn) return 1; else return 0;
-            });
-
-            for (let i = 0; i < this.memberlist.length; i++)
-            {
-                this.memberlist[i].index = i;
-            }
-
+            this.Delete(this.memberd);  //referenced saved for possible deletes
+            this.memberlist.push(this.member);
         }
+        this.memberlist = this.memberlist.sort((left,right) => {
+            let ln: string; let rn: string;
+            if(left.firstName != null) {
+                ln = left.firstName.toLowerCase();
+            }
+            else ln = "";
+
+            if(right.firstName != null) {
+                rn = right.firstName.toLowerCase();
+            }
+            else rn = "";
+            //return (ln < rn) ? -1 : (ln > rn) ? 1: 0;
+            if (ln < rn) return -1; if(ln > rn) return 1; else return 0;
+        });
         this.member = new Member('', false);
         this.mode = "Add";
         this.usermode = "normal";
         this.memservice.putDoc(this.member);
     }
 
+    Delete(p: Member){
+        let index = this.memberlist.indexOf(p, 0);
+        if (index > -1) {
+            this.memberlist.splice(index, 1);
+        }
+    }
    /* delMember(i: number) {
         let res: string;
         this.memberlist[i].delete();
@@ -132,8 +128,9 @@ export class MemberlistComponent implements OnInit{
     }
     public onUsingTable ( al: Member) {
         this.member = Object.assign({}, al);
+        this.memberd = al;
         this.mode = "Save";
-        this.ems = this.member.ExtendedMembers;
+//        this.ems = this.member.ExtendedMembers;
         this.payments = this.member.payments;
         this.selected = true;
 
@@ -176,7 +173,7 @@ export class MemberlistComponent implements OnInit{
         //Here we do the initial call to get all of the id's from the database.
         //we are making the assumption that the data is in  a format we can use. validation is not yet implemented
 
- this.memberlist = new Array<Member>();
+        this.memberlist = new Array<Member>();
         if(this.from === 'extended')  //from meanse user is coming from extendedMembers component so we don't have to go out to the server and recollect the data.
         {
             res = localStorage.getItem('members');
@@ -192,6 +189,11 @@ export class MemberlistComponent implements OnInit{
             this.ms.getAllDocs().subscribe(r1 => {
                 //this.memberlist = r1;
 
+                for(let em of r1)
+                {
+                    if (em.payments != null)
+                        em.payments = em.payments.sort((l,r) => {if (l.receivedDate < r.receivedDate) return 1; if(l.receivedDate > r.receivedDate) return -1; else return 0;});
+                }
                 this.memberlist = r1.sort((left,right) => {
                     let ln: string; let rn: string;
                     if(left.firstName != null) {
@@ -203,14 +205,17 @@ export class MemberlistComponent implements OnInit{
                         rn = right.firstName.toLowerCase();
                     }
                     else rn = "";
-                    //return (ln < rn) ? -1 : (ln > rn) ? 1: 0;
                     if (ln < rn) return -1; if(ln > rn) return 1; else return 0;
                 });
 
+
+
+/*
                 for (let i = 0; i < this.memberlist.length; i++)
                 {
                     this.memberlist[i].index = i;
                 }
+*/
             });
 /*
             this.memservice.getAllDocs().subscribe(r1 => {
@@ -237,7 +242,7 @@ export class MemberlistComponent implements OnInit{
 
         }
        */
-        this.member = new Member('',false);
+        //this.member = new Member('',false);
         this.membercount = this.memberlist.length;
 
 
