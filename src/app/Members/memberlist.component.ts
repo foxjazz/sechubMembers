@@ -21,6 +21,7 @@ export class MemberlistComponent implements OnInit{
     @Input()
         from: string;
     member: Member;
+    picked: Member;
     memberd: Member;
     payments: Array<IPayment>;
     //ems: Array<ExtendedMember>;
@@ -29,11 +30,13 @@ export class MemberlistComponent implements OnInit{
     membercount: number;
     router: Router;
     isactive: string;
+    familyFilter: boolean;
     activeFilter: boolean;
     firstNameFilter: string;
     lastNameFilter: string;
     selected: boolean;
     usermode: string;
+    tempid: string;
     bug: string;
     private list: Member[];
     private memservice: MemberNJSService;
@@ -94,10 +97,10 @@ export class MemberlistComponent implements OnInit{
             //return (ln < rn) ? -1 : (ln > rn) ? 1: 0;
             if (ln < rn) return -1; if(ln > rn) return 1; else return 0;
         });
-        this.member = new Member('', false);
+        this.memservice.putDoc(this.member);
         this.mode = "Add";
         this.usermode = "normal";
-        this.memservice.putDoc(this.member);
+
     }
 
     Delete(p: Member){
@@ -110,6 +113,13 @@ export class MemberlistComponent implements OnInit{
         let res: string;
         this.memberlist[i].delete();
     }*/
+   onAddFamily(){
+       this.tempid = this.member._id;
+       this.member = new Member('',false);
+       this.member.parentID = this.tempid;
+       this.member.isFamily = true;
+       this.usermode = 'screenMember';
+   }
     onSave(b: boolean){
         console.log("emitted from output");
         this.memservice.putDoc(this.member);
@@ -123,12 +133,16 @@ export class MemberlistComponent implements OnInit{
     }
     onDiscardMember(){
         this.usermode = 'normal';
-        this.member = new Member('',false);
+        if(this.picked != null)
+            this.member = this.picked;
+        else
+            this.member = new Member('',false);
         this.selected = false;
     }
     public onUsingTable ( al: Member) {
         this.member = Object.assign({}, al);
         this.memberd = al;
+        this.picked = al;
         this.mode = "Save";
 //        this.ems = this.member.ExtendedMembers;
         this.payments = this.member.payments;

@@ -78,10 +78,9 @@ var MemberlistComponent = (function () {
             else
                 return 0;
         });
-        this.member = new member_model_1.Member('', false);
+        this.memservice.putDoc(this.member);
         this.mode = "Add";
         this.usermode = "normal";
-        this.memservice.putDoc(this.member);
     };
     MemberlistComponent.prototype.Delete = function (p) {
         var index = this.memberlist.indexOf(p, 0);
@@ -93,6 +92,13 @@ var MemberlistComponent = (function () {
          let res: string;
          this.memberlist[i].delete();
      }*/
+    MemberlistComponent.prototype.onAddFamily = function () {
+        this.tempid = this.member._id;
+        this.member = new member_model_1.Member('', false);
+        this.member.parentID = this.tempid;
+        this.member.isFamily = true;
+        this.usermode = 'screenMember';
+    };
     MemberlistComponent.prototype.onSave = function (b) {
         console.log("emitted from output");
         this.memservice.putDoc(this.member);
@@ -106,12 +112,16 @@ var MemberlistComponent = (function () {
     };
     MemberlistComponent.prototype.onDiscardMember = function () {
         this.usermode = 'normal';
-        this.member = new member_model_1.Member('', false);
+        if (this.picked != null)
+            this.member = this.picked;
+        else
+            this.member = new member_model_1.Member('', false);
         this.selected = false;
     };
     MemberlistComponent.prototype.onUsingTable = function (al) {
         this.member = Object.assign({}, al);
         this.memberd = al;
+        this.picked = al;
         this.mode = "Save";
         //        this.ems = this.member.ExtendedMembers;
         this.payments = this.member.payments;

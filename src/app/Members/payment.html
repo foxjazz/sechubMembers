@@ -19,7 +19,7 @@
             <div class="form-inline">
 
                 <label for="paydate">date</label>
-                <input required [(ngModel)]="humanDate" id="paydate" name="payDate" type="text" class="form-control" size="12">
+                <input required [(ngModel)]="humanDate" id="paydate" name="payDate" type="date" class="form-control" size="12">
 
 
             </div>
@@ -45,7 +45,6 @@
                 <tr>
                     <th>pay date</th>
                     <th>amount</th>
-                    <th>active</th>
                     <th>type</th>
 
 
@@ -54,7 +53,6 @@
 
                     <td> {{tpay.receivedDate}} </td>
                     <td> ${{tpay.amount}}</td>
-                    <td>{{tpay.active}}</td>
                     <td>{{tpay.type}}</td>
 
 

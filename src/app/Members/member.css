@@ -10,8 +10,17 @@
 .h120{
     height: 120px;
 }
+.font14{
+    font-size: 14px;
+}
+.colorwhite{
+    color: white;
+}
 .fontmedium{
     font-size:16px;
+}
+.plain{
+    color: yellow;
 }
 .btn-custom {
     background: #3498db;

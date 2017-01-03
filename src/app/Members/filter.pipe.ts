@@ -7,9 +7,12 @@ import { Member } from './member.model';
     name: 'asFilter'
 })
 export class FilterPipe implements PipeTransform {
-    transform(mems: Member[], active: boolean, firstName: string, lastName: string): Member[] {
+    transform(mems: Member[], active: boolean,family: boolean, firstName: string, lastName: string): Member[] {
         let newmems = mems;
         if(active) {
+            newmems = filter(mems, {active});
+        }
+        if(family) {
             newmems = filter(mems, {active});
         }
         if(firstName != null && firstName.length > 0)

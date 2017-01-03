@@ -21,6 +21,8 @@ export class PaymentComponent implements OnInit {
         this.usermode = "normal";
         this.ecol = "3";
     }
+    //todo add setter for members
+
     @Input()
     payments: Array<IPayment>;
     @Output() OnSaved = new EventEmitter<boolean>();

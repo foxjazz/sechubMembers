@@ -37,6 +37,7 @@ export class Member {
     index: number;
     _id: string;
     _rev: string;
+    parentID: string;
     firstName: string;
     lastName: string;
     phone: string;

@@ -18,6 +18,11 @@
                       <input type="checkbox" id="selActive" name="selActive" value="false" class="form-control" [(ngModel)]="activeFilter">
                   </div>
                   <div>
+                      <label for="selFamily">is family</label>
+                      <input type="checkbox" id="selFamily" name="selFamily" value="false" class="form-control" [(ngModel)]="familyFilter">
+                  </div>
+
+                  <div>
                       <label for="selfirstName">first name</label>
                       <input type="text" id="selfirstName" name="selfirstName" value="" class="form-control"  size="5" [(ngModel)]="firstNameFilter">
                   </div>
@@ -39,7 +44,7 @@
                           <th>city state zip</th>
                           <th>active</th>
                       </tr>
-                      <tr  *ngFor="let al of (memberlist | asFilter:activeFilter:firstNameFilter:lastNameFilter);" [class.itemselected]="item === selectedItem" (click)="onUsingTable(al)" >
+                      <tr  *ngFor="let al of (memberlist | asFilter:activeFilter:familyFilter:firstNameFilter:lastNameFilter);" [class.itemselected]="item === selectedItem" (click)="onUsingTable(al)" >
 
                           <td> {{al.firstName}} </td>
                           <td> {{al.lastName}} </td>
@@ -62,25 +67,25 @@
       </div>
       <div *ngIf="usermode==='normal'" class="row">
           <div class="col-md-4">
-              <div class="h120" *ngIf="selected">
+              <div class="font14 colorwhite" *ngIf="selected">
                   <div>
-                  Name: {{member.firstName}} {{member.lastName}}
+                      Name: <span class="plain">{{member.firstName}} {{member.lastName}}</span>
                   </div>
                   <div>
-                    email: {{member.email}}
-                    Phone: {{member.phone}}
+                      email: <span class="plain">{{member.email}}</span>
+                      Phone: <span class="plain">{{member.phone}}</span>
                   </div>
                   <div>
-                    address: {{member.address}}
+                      address: <span class="plain"> {{member.address}}</span>
                   </div>
                   <div>
-                    city: {{member.city}} {{member.state}}  {{member.zip}}
+                      city: <span class="plain">{{member.city}} {{member.state}}  {{member.zip}}</span>
                   </div>
                   <div>
-                      is active: {{member.active}}
+                      is active: <span class="plain">{{member.active}}</span>
                   </div>
                   <div>
-                      is family: {{member.isFamily}}
+                      is family: <span class="plain">{{member.isFamily}}</span>
                   </div>
 <!--
                   <div *ngIf="member.ExtendedMembers !== undefined && member.ExtendedMembers.length > 0">
@@ -151,8 +156,7 @@
                           <input [(ngModel)]="member.phone" id="ph" name="phone" type="text" class="form-control" size="20">
                           <label for="active">Active</label>
                           <input [(ngModel)]="member.active" id="active" name="active" type="checkbox" class="form-control" size="5">
-                          <label for="family">Family</label>
-                          <input [(ngModel)]="member.isFamily" id="family" name="family" type="checkbox" class="form-control" size="5">
+                          Is Family: {{member.isFamily}}
 
                       </div>
                       <div class="form-inline">
@@ -162,6 +166,7 @@
                       <div class="submit">
                           <button type="submit" class="btn-custom">{{mode}}</button>
                           <button type="button" class="btn-custom" (click)="onDiscardMember()">Discard</button>
+                          <button *ngIf="!member.isFamily" type="button" class="btn-custom" (click)="onAddFamily()" >Add Family</button>
                       </div>
                       <!--<label><input type="checkbox" [(ngModel)]="showCompleted" name="memberCompleted"> show completed</label>-->
                   </form>
