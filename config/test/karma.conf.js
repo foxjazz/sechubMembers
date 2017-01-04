@@ -13,7 +13,7 @@ module.exports = function(config) {
   var configuration = {
     basePath: '../../',
 
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine','requirejs'],
     browsers: ['PhantomJS'],
     reporters: ['progress', 'coverage'],
 
