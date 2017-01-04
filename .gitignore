@@ -9,3 +9,4 @@ env.json
 .DS_Store
 /src/assets/styles/*.css
 /src/app/Members/config.ts
+/config/gulp/tasks/conf.js

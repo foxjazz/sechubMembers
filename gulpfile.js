@@ -7,3 +7,4 @@ dashboard.show();
 
 /* Default task */
 gulp.task('default', ['serve-dev']);
+gulp.task('send',['sftp-copy']);

@@ -10,15 +10,32 @@ var uglify = require('gulp-uglify');
 var cssnano = require('gulp-cssnano');
 var gulpTemplate = require('gulp-template');
 var envVars = require('../utils/env-vars');
-
+var sftp = require('gulp-sftp');
+var conf = require('./conf.js');
 require('@ngstarter/systemjs-extension')(config);
 
 gulp.task('build', function (done) {
     runSequence('test', 'build-systemjs', 'build-assets', done);
 });
 
+
 /* Concat and minify/uglify all css, js, and copy fonts */
-gulp.task('build-assets', function (done) {
+gulp.task ('sftp-copy', function(){
+
+    var options ={
+        host: 'home648650172.1and1-data.host',
+        user: conf.secret.user,
+        pass: conf.secret.passphrase,
+        remotePath: "/testFtp"
+    }
+
+    return gulp.src('g:/Code/Memberships/sechubMembers/build/*')
+        .pipe(sftp(options))
+        .on('finish',function(){
+            util.log('sftp done');
+        });
+});
+gulp.task('build-assets', function () {
     runSequence('clean-build', ['sass', 'fonts'], function () {
         gulp.src(config.app + '**/*.html', {
             base: config.app
@@ -46,7 +63,9 @@ gulp.task('build-assets', function (done) {
             .pipe(gulpif('!*.html', rev()))
             .pipe(revReplace())
             .pipe(gulp.dest(config.build.path))
-            .on('finish', done);
+            .on('finish', function(){
+                util.log('finished assets');
+            });
     });
 });
 
