@@ -17,19 +17,26 @@ import {MemberNJSService} from "./memberNJS.service";
     templateUrl: 'app/members/memberlist.html',
     styleUrls: ['app/members/member.css']
 })
-export class MemberlistComponent implements OnInit{
+export class MemberlistComponent implements OnInit {
     @Input()
-        from: string;
+    from: string;
+
     member: Member;
     picked: Member;
     memberd: Member;
+
     payments: Array<IPayment>;
     //ems: Array<ExtendedMember>;
     memberlist: Array<Member>;
-    mode = "Add";
     membercount: number;
+
     router: Router;
-    isactive: string;
+    btnstyle:string;
+    isShowSubmit: boolean;
+    isShowAddNewMember: boolean;
+    isShowAddFamily: boolean;
+    isShowDiscard: boolean;
+
     familyFilter: boolean;
     activeFilter: boolean;
     firstNameFilter: string;
@@ -37,228 +44,235 @@ export class MemberlistComponent implements OnInit{
     selected: boolean;
     usermode: string;
     tempid: string;
+    tempName: string;
     bug: string;
     private list: Member[];
     private memservice: MemberNJSService;
     private showCompleted: Boolean;
 
-  //  memberlist: FirebaseListObservable<any[]>;
+    //  memberlist: FirebaseListObservable<any[]>;
     constructor(private r: Router, private ms: MemberNJSService) {
         this.router = r;
-        this.memservice  = ms;
+        this.btnstyle = "btn-custom";
+        this.memservice = ms;
         this.showCompleted = true;
         this.membercount = 0;
         this.firstNameFilter = "";
-        this.lastNameFilter="";
-        this.activeFilter= false;
+        this.lastNameFilter = "";
+        this.activeFilter = false;
         this.selected = false;
         this.usermode = "normal";
-    //    this.memberlist = af.database.list('./members');
+        //    this.memberlist = af.database.list('./members');
     }
-    getPayments(): Array<IPayment>{
-        if(this.payments == null)
+
+    getPayments(): Array<IPayment> {
+        if (this.payments == null)
             this.payments = new Array<IPayment>();
         return this.payments;
     }
-    getMember(): Member{
+
+    getMember(): Member {
         return this.member;
     }
 
-/*
-    getExtended(): Array<ExtendedMember>{
-        if(this.ems == null)
-            this.ems = new Array<ExtendedMember>();
-        return this.ems;
-    }
-*/
+    /*
+     getExtended(): Array<ExtendedMember>{
+     if(this.ems == null)
+     this.ems = new Array<ExtendedMember>();
+     return this.ems;
+     }
+     */
 
     submitForm() {
         //let m = new Member('',false);
         //
-        if(this.mode === "Add") {
-            this.memberlist.push(this.member);
-        }
-        else
-        {
-            this.Delete(this.memberd);  //referenced saved for possible deletes
-            this.memberlist.push(this.member);
-        }
-        this.memberlist = this.memberlist.sort((left,right) => {
-            let ln: string; let rn: string;
-            if(left.firstName != null) {
+        this.btnstyle = "btn-custom";
+        this.Delete(this.memberd);  //referenced saved for possible deletes
+        this.memberlist.push(this.member);
+        this.picked = this.member;
+        this.memberlist = this.memberlist.sort((left, right) => {
+            let ln: string;
+            let rn: string;
+            if (left.firstName != null) {
                 ln = left.firstName.toLowerCase();
             }
             else ln = "";
 
-            if(right.firstName != null) {
+            if (right.firstName != null) {
                 rn = right.firstName.toLowerCase();
             }
             else rn = "";
             //return (ln < rn) ? -1 : (ln > rn) ? 1: 0;
-            if (ln < rn) return -1; if(ln > rn) return 1; else return 0;
+            if (ln < rn) return -1;
+            if (ln > rn) return 1; else return 0;
         });
         this.memservice.putDoc(this.member);
-        this.mode = "Add";
+        this.isShowAddNewMember = true;
+        this.isShowAddFamily = false;
+        this.isShowSubmit = false;
+        this.isShowDiscard = false;
         this.usermode = "normal";
 
     }
 
-    Delete(p: Member){
+    Delete(p: Member) {
         let index = this.memberlist.indexOf(p, 0);
         if (index > -1) {
             this.memberlist.splice(index, 1);
         }
     }
-   /* delMember(i: number) {
-        let res: string;
-        this.memberlist[i].delete();
-    }*/
-   onAddFamily(){
-       this.tempid = this.member._id;
-       this.member = new Member('',false);
-       this.member.parentID = this.tempid;
-       this.member.isFamily = true;
-       this.usermode = 'screenMember';
-   }
-    onSave(b: boolean){
+
+    /* delMember(i: number) {
+     let res: string;
+     this.memberlist[i].delete();
+     }*/
+    onAddFamily() {
+        this.tempid = this.member._id;
+        this.tempName = this.member.firstName + ' ' + this.member.lastName;
+        this.member = new Member('', false);
+        this.member.parentID = this.tempid;
+        this.member.parentName = this.tempName;
+        this.member.isFamily = true;
+        this.isShowDiscard = true;
+        this.isShowAddNewMember = false;
+        this.isShowSubmit = true;
+        this.isShowAddFamily = false;
+        this.usermode = 'normal';
+    }
+
+/*
+    onSave(b: boolean) {
         console.log("emitted from output");
         this.memservice.putDoc(this.member);
     }
-    onEdit(){
+
+    onEdit() {
         this.usermode = 'screenMember';
     }
-    onAdd(){
-        this.member = new Member('',false);
+
+    onAdd() {
+        this.member = new Member('', false);
         this.usermode = 'screenMember';
     }
-    onDiscardMember(){
+*/
+
+    onAddNewMember() {
+        this.isShowSubmit = true;
+        this.isShowAddNewMember = false;
+        this.isShowAddFamily = false;
+        this.isShowDiscard = true;
+        this.picked = new Member('', false);  //set placeholder
+        this.member = new Member('', false);
         this.usermode = 'normal';
-        if(this.picked != null)
+
+    }
+
+    onDiscardMember() {
+        this.btnstyle = "btn-custom";
+        this.usermode = 'normal';
+        this.isShowAddNewMember = true;
+        this.isShowAddFamily = false;
+        this.isShowSubmit = false;
+        this.isShowDiscard = false;
+        if (this.picked != null)
             this.member = this.picked;
         else
-            this.member = new Member('',false);
+            this.member = new Member('', false);
         this.selected = false;
     }
-    public onUsingTable ( al: Member) {
-        this.member = Object.assign({}, al);
-        this.memberd = al;
-        this.picked = al;
-        this.mode = "Save";
+
+    private hasChanges(): boolean {
+        if (JSON.stringify(this.member) === JSON.stringify(this.picked))
+            return false;
+        else
+            return true;
+    }
+
+    public onUsingTable(al: Member) {
+        //add logic to check user's changes
+        if (!this.hasChanges()) {
+            this.btnstyle = "btn-custom";
+            this.member = Object.assign({}, al);
+            this.memberd = al;
+            this.picked = al;
+            if (this.picked.isFamily === false)
+                this.isShowAddFamily = true;
 //        this.ems = this.member.ExtendedMembers;
-        this.payments = this.member.payments;
-        this.selected = true;
-
-        /*
-        if(event.target["id"] === "Select")
-        {
-            this.member = al;
-            this.mode = "Save";
-
+            this.payments = this.member.payments;
+            this.selected = true;
+            this.isShowSubmit = true;
+            this.isShowAddFamily = !al.isFamily;
+            this.isShowAddNewMember = true;
         }
-        if(event.target["id"] === "Payments")
-        {
-            if(al.payments == null || al.payments.length == 0)
-            {
-                let newpay = {receivedDate: new Date(), amount: 0, type: "cash", targetDate: new Date(), active: false};
-                al.payments.push(newpay);
-            }
-            this.payments = al.payments;
+        else{
+            this.btnstyle = "btn-red";
+            this.isShowDiscard = true;
+            this.isShowSubmit = true;
+            this.isShowAddFamily = false;
+            this.isShowAddNewMember = false;
         }
-
-        else if (event.target["id"]==="Remove"){
-            al.delete();
-        }
-        if(event.target["id"]==="ems"){
-            //redirectTo: '/dashboard'
-            localStorage.setItem('member',JSON.stringify(al));
-            this.router.navigate(['/extendedMembers']);
-            //this.router.navigate(['/extendedMembers', 'member']);
-        }*/
 
 
     }
 
-   /* ngOnDestroy(){
-        localStorage.setItem('members', JSON.stringify(this.memberlist));
-        localStorage.setItem('members', JSON.stringify(new Date().getTime()));
-    }*/
-    ngOnInit(){
+    /* ngOnDestroy(){
+     localStorage.setItem('members', JSON.stringify(this.memberlist));
+     localStorage.setItem('members', JSON.stringify(new Date().getTime()));
+     }*/
+    ngOnInit() {
         let res: string;
+        this.isShowAddNewMember = true;
         //Here we do the initial call to get all of the id's from the database.
         //we are making the assumption that the data is in  a format we can use. validation is not yet implemented
 
+
         this.memberlist = new Array<Member>();
-        if(this.from === 'extended')  //from meanse user is coming from extendedMembers component so we don't have to go out to the server and recollect the data.
+
+        if (this.from === 'extended')  //from meanse user is coming from extendedMembers component so we don't have to go out to the server and recollect the data.
         {
             res = localStorage.getItem('members');
-            if(res != null && res.indexOf('phone') > 0) {
+            if (res != null && res.indexOf('phone') > 0) {
                 this.from = 'extended';  //because local storage failed somehow
             }
-            else{
+            else {
                 this.memberlist = new Array<Member>();
-                this.member = new Member('',false);
+                this.member = new Member('', false);
             }
         }
-        if (this.from !== 'extended'){
+        if (this.from !== 'extended') {
             this.ms.getAllDocs().subscribe(r1 => {
                 //this.memberlist = r1;
 
-                for(let em of r1)
-                {
+                for (let em of r1) {
                     if (em.payments != null)
-                        em.payments = em.payments.sort((l,r) => {if (l.receivedDate < r.receivedDate) return 1; if(l.receivedDate > r.receivedDate) return -1; else return 0;});
+                        em.payments = em.payments.sort((l, r) => {
+                            if (l.receivedDate < r.receivedDate) return 1;
+                            if (l.receivedDate > r.receivedDate) return -1; else return 0;
+                        });
                 }
-                this.memberlist = r1.sort((left,right) => {
-                    let ln: string; let rn: string;
-                    if(left.firstName != null) {
+                this.memberlist = r1.sort((left, right) => {
+                    let ln: string;
+                    let rn: string;
+                    if (left.firstName != null) {
                         ln = left.firstName.toLowerCase();
                     }
                     else ln = "";
 
-                    if(right.firstName != null) {
+                    if (right.firstName != null) {
                         rn = right.firstName.toLowerCase();
                     }
                     else rn = "";
-                    if (ln < rn) return -1; if(ln > rn) return 1; else return 0;
+                    if (ln < rn) return -1;
+                    if (ln > rn) return 1; else return 0;
                 });
 
 
-
-/*
-                for (let i = 0; i < this.memberlist.length; i++)
-                {
-                    this.memberlist[i].index = i;
-                }
-*/
             });
-/*
-            this.memservice.getAllDocs().subscribe(r1 => {
-             for(let nn of r1.rows)
-             {
-                 this.memservice.getDoc(nn.id).subscribe(res2 =>
-                 {
-                        this.memberlist.push(res2);
-                 });
-                        console.log(nn.id);
-                 }
-             });
-*/
-        }
-     /*
-        res = localStorage.getItem('members');
-        if(res != null && res.indexOf('phone') > 0) {
-            this.memberlist = JSON.parse(res);
-            this.member = this.memberlist[0];
-        }
-        else{
-            this.memberlist = new Array<Member>();
-            this.member = new Member('',false);
-
-        }
-       */
-        //this.member = new Member('',false);
-        this.membercount = this.memberlist.length;
+            this.member = new Member('', false);
+            this.picked = this.member;
+            this.membercount = this.memberlist.length;
 
 
+        }
     }
 }

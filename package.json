@@ -2,11 +2,11 @@
     "name": "quickauth-starter",
     "version": "1.0.0",
     "author": "Antony Budianto and Joe Dickinson",
-    "description": "Quck auth starter derived from angular2 starter",
+    "description": "Secular hub memberships sorce",
     "main": "src/tmp/app/main.js",
     "repository": {
         "type": "git",
-        "url": "https://github.com/foxjazz/quickauth.git"
+        "url": "https://github.com/foxjazz/sechubMembers.git"
     },
     "engines": {
         "node": ">=4.3",
@@ -39,7 +39,7 @@
     ],
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/foxjazz/quickauth/issues"
+        "url": "https://github.com/foxjazz/sechubMembers/issues"
     },
     "dependencies": {
         "@angular/common": "2.0.0",

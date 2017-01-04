@@ -20,8 +20,8 @@ var MemberlistComponent = (function () {
     function MemberlistComponent(r, ms) {
         this.r = r;
         this.ms = ms;
-        this.mode = "Add";
         this.router = r;
+        this.btnstyle = "btn-custom";
         this.memservice = ms;
         this.showCompleted = true;
         this.membercount = 0;
@@ -41,22 +41,19 @@ var MemberlistComponent = (function () {
         return this.member;
     };
     /*
-        getExtended(): Array<ExtendedMember>{
-            if(this.ems == null)
-                this.ems = new Array<ExtendedMember>();
-            return this.ems;
-        }
-    */
+     getExtended(): Array<ExtendedMember>{
+     if(this.ems == null)
+     this.ems = new Array<ExtendedMember>();
+     return this.ems;
+     }
+     */
     MemberlistComponent.prototype.submitForm = function () {
         //let m = new Member('',false);
         //
-        if (this.mode === "Add") {
-            this.memberlist.push(this.member);
-        }
-        else {
-            this.Delete(this.memberd); //referenced saved for possible deletes
-            this.memberlist.push(this.member);
-        }
+        this.btnstyle = "btn-custom";
+        this.Delete(this.memberd); //referenced saved for possible deletes
+        this.memberlist.push(this.member);
+        this.picked = this.member;
         this.memberlist = this.memberlist.sort(function (left, right) {
             var ln;
             var rn;
@@ -79,7 +76,10 @@ var MemberlistComponent = (function () {
                 return 0;
         });
         this.memservice.putDoc(this.member);
-        this.mode = "Add";
+        this.isShowAddNewMember = true;
+        this.isShowAddFamily = false;
+        this.isShowSubmit = false;
+        this.isShowDiscard = false;
         this.usermode = "normal";
     };
     MemberlistComponent.prototype.Delete = function (p) {
@@ -89,77 +89,97 @@ var MemberlistComponent = (function () {
         }
     };
     /* delMember(i: number) {
-         let res: string;
-         this.memberlist[i].delete();
+     let res: string;
+     this.memberlist[i].delete();
      }*/
     MemberlistComponent.prototype.onAddFamily = function () {
         this.tempid = this.member._id;
+        this.tempName = this.member.firstName + ' ' + this.member.lastName;
         this.member = new member_model_1.Member('', false);
         this.member.parentID = this.tempid;
+        this.member.parentName = this.tempName;
         this.member.isFamily = true;
-        this.usermode = 'screenMember';
+        this.isShowDiscard = true;
+        this.isShowAddNewMember = false;
+        this.isShowSubmit = true;
+        this.isShowAddFamily = false;
+        this.usermode = 'normal';
     };
-    MemberlistComponent.prototype.onSave = function (b) {
-        console.log("emitted from output");
-        this.memservice.putDoc(this.member);
-    };
-    MemberlistComponent.prototype.onEdit = function () {
-        this.usermode = 'screenMember';
-    };
-    MemberlistComponent.prototype.onAdd = function () {
+    /*
+        onSave(b: boolean) {
+            console.log("emitted from output");
+            this.memservice.putDoc(this.member);
+        }
+    
+        onEdit() {
+            this.usermode = 'screenMember';
+        }
+    
+        onAdd() {
+            this.member = new Member('', false);
+            this.usermode = 'screenMember';
+        }
+    */
+    MemberlistComponent.prototype.onAddNewMember = function () {
+        this.isShowSubmit = true;
+        this.isShowAddNewMember = false;
+        this.isShowAddFamily = false;
+        this.isShowDiscard = true;
+        this.picked = new member_model_1.Member('', false); //set placeholder
         this.member = new member_model_1.Member('', false);
-        this.usermode = 'screenMember';
+        this.usermode = 'normal';
     };
     MemberlistComponent.prototype.onDiscardMember = function () {
+        this.btnstyle = "btn-custom";
         this.usermode = 'normal';
+        this.isShowAddNewMember = true;
+        this.isShowAddFamily = false;
+        this.isShowSubmit = false;
+        this.isShowDiscard = false;
         if (this.picked != null)
             this.member = this.picked;
         else
             this.member = new member_model_1.Member('', false);
         this.selected = false;
     };
+    MemberlistComponent.prototype.hasChanges = function () {
+        if (JSON.stringify(this.member) === JSON.stringify(this.picked))
+            return false;
+        else
+            return true;
+    };
     MemberlistComponent.prototype.onUsingTable = function (al) {
-        this.member = Object.assign({}, al);
-        this.memberd = al;
-        this.picked = al;
-        this.mode = "Save";
-        //        this.ems = this.member.ExtendedMembers;
-        this.payments = this.member.payments;
-        this.selected = true;
-        /*
-        if(event.target["id"] === "Select")
-        {
-            this.member = al;
-            this.mode = "Save";
-
+        //add logic to check user's changes
+        if (!this.hasChanges()) {
+            this.btnstyle = "btn-custom";
+            this.member = Object.assign({}, al);
+            this.memberd = al;
+            this.picked = al;
+            if (this.picked.isFamily === false)
+                this.isShowAddFamily = true;
+            //        this.ems = this.member.ExtendedMembers;
+            this.payments = this.member.payments;
+            this.selected = true;
+            this.isShowSubmit = true;
+            this.isShowAddFamily = !al.isFamily;
+            this.isShowAddNewMember = true;
         }
-        if(event.target["id"] === "Payments")
-        {
-            if(al.payments == null || al.payments.length == 0)
-            {
-                let newpay = {receivedDate: new Date(), amount: 0, type: "cash", targetDate: new Date(), active: false};
-                al.payments.push(newpay);
-            }
-            this.payments = al.payments;
+        else {
+            this.btnstyle = "btn-red";
+            this.isShowDiscard = true;
+            this.isShowSubmit = true;
+            this.isShowAddFamily = false;
+            this.isShowAddNewMember = false;
         }
-
-        else if (event.target["id"]==="Remove"){
-            al.delete();
-        }
-        if(event.target["id"]==="ems"){
-            //redirectTo: '/dashboard'
-            localStorage.setItem('member',JSON.stringify(al));
-            this.router.navigate(['/extendedMembers']);
-            //this.router.navigate(['/extendedMembers', 'member']);
-        }*/
     };
     /* ngOnDestroy(){
-         localStorage.setItem('members', JSON.stringify(this.memberlist));
-         localStorage.setItem('members', JSON.stringify(new Date().getTime()));
+     localStorage.setItem('members', JSON.stringify(this.memberlist));
+     localStorage.setItem('members', JSON.stringify(new Date().getTime()));
      }*/
     MemberlistComponent.prototype.ngOnInit = function () {
         var _this = this;
         var res;
+        this.isShowAddNewMember = true;
         //Here we do the initial call to get all of the id's from the database.
         //we are making the assumption that the data is in  a format we can use. validation is not yet implemented
         this.memberlist = new Array();
@@ -179,11 +199,14 @@ var MemberlistComponent = (function () {
                 for (var _i = 0, r1_1 = r1; _i < r1_1.length; _i++) {
                     var em = r1_1[_i];
                     if (em.payments != null)
-                        em.payments = em.payments.sort(function (l, r) { if (l.receivedDate < r.receivedDate)
-                            return 1; if (l.receivedDate > r.receivedDate)
-                            return -1;
-                        else
-                            return 0; });
+                        em.payments = em.payments.sort(function (l, r) {
+                            if (l.receivedDate < r.receivedDate)
+                                return 1;
+                            if (l.receivedDate > r.receivedDate)
+                                return -1;
+                            else
+                                return 0;
+                        });
                 }
                 _this.memberlist = r1.sort(function (left, right) {
                     var ln;
@@ -205,28 +228,11 @@ var MemberlistComponent = (function () {
                     else
                         return 0;
                 });
-                /*
-                                for (let i = 0; i < this.memberlist.length; i++)
-                                {
-                                    this.memberlist[i].index = i;
-                                }
-                */
             });
+            this.member = new member_model_1.Member('', false);
+            this.picked = this.member;
+            this.membercount = this.memberlist.length;
         }
-        /*
-           res = localStorage.getItem('members');
-           if(res != null && res.indexOf('phone') > 0) {
-               this.memberlist = JSON.parse(res);
-               this.member = this.memberlist[0];
-           }
-           else{
-               this.memberlist = new Array<Member>();
-               this.member = new Member('',false);
-   
-           }
-          */
-        //this.member = new Member('',false);
-        this.membercount = this.memberlist.length;
     };
     __decorate([
         core_1.Input(), 

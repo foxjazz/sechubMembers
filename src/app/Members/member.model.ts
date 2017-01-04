@@ -38,6 +38,7 @@ export class Member {
     _id: string;
     _rev: string;
     parentID: string;
+    parentName: string;
     firstName: string;
     lastName: string;
     phone: string;

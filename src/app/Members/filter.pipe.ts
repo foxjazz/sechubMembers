@@ -13,7 +13,7 @@ export class FilterPipe implements PipeTransform {
             newmems = filter(mems, {active});
         }
         if(family) {
-            newmems = filter(mems, {active});
+            newmems = filter(mems, {family});
         }
         if(firstName != null && firstName.length > 0)
         {

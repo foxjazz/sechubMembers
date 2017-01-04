@@ -3,10 +3,11 @@
   <div class="panel-heading">
     <h3 class="panel-title"><i class="fa fa-list"></i> Member List &nbsp;<span class="badge">{{membercount}} mode: {{mode}} </span>  </h3>
   </div>
-    <div>
-        {{bug}}
-    </div>
+
   <div class="panel-body">
+      <div>
+          {{bug}}
+      </div>
       <div *ngIf="usermode==='normal'" class="row">
           <div class="col-md-4">
               <div>
@@ -63,116 +64,69 @@
                   </li>
               </ul>-->
           </div>
-
       </div>
-      <div *ngIf="usermode==='normal'" class="row">
-          <div class="col-md-4">
-              <div class="font14 colorwhite" *ngIf="selected">
-                  <div>
-                      Name: <span class="plain">{{member.firstName}} {{member.lastName}}</span>
-                  </div>
-                  <div>
-                      email: <span class="plain">{{member.email}}</span>
-                      Phone: <span class="plain">{{member.phone}}</span>
-                  </div>
-                  <div>
-                      address: <span class="plain"> {{member.address}}</span>
-                  </div>
-                  <div>
-                      city: <span class="plain">{{member.city}} {{member.state}}  {{member.zip}}</span>
-                  </div>
-                  <div>
-                      is active: <span class="plain">{{member.active}}</span>
-                  </div>
-                  <div>
-                      is family: <span class="plain">{{member.isFamily}}</span>
-                  </div>
-<!--
-                  <div *ngIf="member.ExtendedMembers !== undefined && member.ExtendedMembers.length > 0">
-                      Family Members
-                      <ul *ngFor="let em of member.ExtendedMembers">
-                          <li>{{em.firstName}} {{em.lastName}} {{em.phone}}</li>
-                      </ul>
-                  </div>
--->
-              </div>
-              <div>
-                  <button type="button" class="btn-custom" (click)="onAdd()">Add new member</button>
-                  <button *ngIf="mode==='Save'" type="button" class="btn-custom" (click)="onEdit()">Edit</button>
-              </div>
 
-          </div>
-<!--
-          <div>
-              <as-extended *ngIf="selected" [ems]="getExtended()" (OnSaved)="onSave($event)"></as-extended>
-          </div>
--->
-          <div class="col-md-8">
-              <as-payment *ngIf="selected" [payments]="getPayments()" (OnSaved)="onSave($event)"></as-payment>
-          </div>
-    </div>
-<!--
-    <div *ngIf="usermode==='normal'" class="row">
-        <as-payment *ngIf="selected" [payments]="getPayments()" (OnSaved)="onSave($event)"></as-payment>
-
-    </div>
--->
-
-
-      <div class="row" *ngIf="usermode=='screenMember'">
-          <div class="col-md-12">
+      <div class="row">
+          <div class="col-md-6">
               <div >
                   <h1>Member Information</h1>
               </div>
-              <div class="form-group">
+                  <div class="form-group">
 
-                  <form (submit)="submitForm()" #memberForm="ngForm">
+                      <form (submit)="submitForm()" #memberForm="ngForm">
 
-                      <!--<span [hidden]="member.email.valid" class="badge badge-warning">Required</span>-->
-                      <div class="form-inline">
-                          <label for="email">Email</label>
-                          <input required [(ngModel)]="member.email" id="Email" name="memberName" type="text" class="form-control" size="20">
-                      </div>
-                      <div class="form-inline">
-                          <label for="fn">First Name</label>
-                          <input required [(ngModel)]="member.firstName" id="fn" name="firstName" type="text" class="form-control" size="15">
-                          <label for="ln">Last Name</label>
-                          <input required [(ngModel)]="member.lastName" id="ln" name="lastName" type="text" class="form-control" size="15">
-                      </div>
-                      <div class="form-inline">
-                          <label for="addr">Address</label>
-                          <input [(ngModel)]="member.address" id="addr" name="address" type="text" class="form-control" size="30">
-                      </div>
-                      <div class="form-inline">
-                          <label for="city">City</label>
-                          <input [(ngModel)]="member.city" id="city" name="city" type="text" class="form-control" size="20">
-                          <label for="state">State</label>
-                          <input [(ngModel)]="member.state" id="state" name="state" type="text" class="form-control" size="5">
-                          <label for="zip">Zip</label>
-                          <input [(ngModel)]="member.zip" id="zip" name="zip" type="text" class="form-control" size="10">
-                      </div>
-                      <div class="form-inline">
-                          <label for="ph">Phone</label>
-                          <input [(ngModel)]="member.phone" id="ph" name="phone" type="text" class="form-control" size="20">
-                          <label for="active">Active</label>
-                          <input [(ngModel)]="member.active" id="active" name="active" type="checkbox" class="form-control" size="5">
-                          Is Family: {{member.isFamily}}
+                          <!--<span [hidden]="member.email.valid" class="badge badge-warning">Required</span>-->
+                          <div class="form-inline">
+                              <label for="email">Email</label>
+                              <input required [(ngModel)]="member.email" id="Email" name="memberName" type="text" class="form-control" size="20">
+                          </div>
+                          <div class="form-inline">
+                              <label for="fn">First Name</label>
+                              <input required [(ngModel)]="member.firstName" id="fn" name="firstName" type="text" class="form-control" size="10">
+                              <label for="ln">Last Name</label>
+                              <input required [(ngModel)]="member.lastName" id="ln" name="lastName" type="text" class="form-control" size="10">
+                          </div>
+                          <div class="form-inline">
+                              <label for="addr">Address</label>
+                              <input [(ngModel)]="member.address" id="addr" name="address" type="text" class="form-control" size="30">
+                          </div>
+                          <div class="form-inline">
+                              <label for="city">City</label>
+                              <input [(ngModel)]="member.city" id="city" name="city" type="text" class="form-control" size="15">
+                              <label for="state">State</label>
+                              <input [(ngModel)]="member.state" id="state" name="state" type="text" class="form-control" size="2" >
+                              <label for="zip">Zip</label>
+                              <input [(ngModel)]="member.zip" id="zip" name="zip" type="text" class="form-control widthZip" size="10">
+                          </div>
+                          <div class="form-inline">
+                              <label for="ph">Phone</label>
+                              <input [(ngModel)]="member.phone" id="ph" name="phone" type="text" class="form-control" size="10">
+                              <label for="active">Active</label>
+                              <input [(ngModel)]="member.active" id="active" name="active" type="checkbox" class="form-control" size="5">
+                              Family Of: {{member.parentName}}
 
-                      </div>
-                      <div class="form-inline">
-                          <label for="skills">Skills</label>
-                          <input [(ngModel)]="member.skills" id="skills" name="skills" type="text"class="form-control" size="40">
-                      </div>
-                      <div class="submit">
-                          <button type="submit" class="btn-custom">{{mode}}</button>
-                          <button type="button" class="btn-custom" (click)="onDiscardMember()">Discard</button>
-                          <button *ngIf="!member.isFamily" type="button" class="btn-custom" (click)="onAddFamily()" >Add Family</button>
-                      </div>
-                      <!--<label><input type="checkbox" [(ngModel)]="showCompleted" name="memberCompleted"> show completed</label>-->
-                  </form>
+                          </div>
+                          <div class="form-inline">
+                              <label for="skills">Skills</label>
+                              <input [(ngModel)]="member.skills" id="skills" name="skills" type="text"class="form-control" size="20">
+                          </div>
+                          <div class="submit">
+                              <button *ngIf="isShowSubmit" type="submit" class="{{btnstyle}}">Save</button>
+                              <button *ngIf="isShowAddNewMember" type="button" class="btn-custom" (click)="onAddNewMember()">Add New Member</button>
+                              <button *ngIf="isShowDiscard" type="button" class="{{btnstyle}}" (click)="onDiscardMember()">Discard</button>
+                              <button *ngIf="isShowAddFamily" type="button" class="btn-custom" (click)="onAddFamily()" >Add Family</button>
+                          </div>
+                          <!--<label><input type="checkbox" [(ngModel)]="showCompleted" name="memberCompleted"> show completed</label>-->
+                      </form>
+                  </div>
               </div>
+
+              <div class="col-md-6">
+                  <as-payment *ngIf="selected" [payments]="getPayments()" (OnSaved)="onSave($event)"></as-payment>
+              </div>
+
           </div>
-      </div>
+
   </div>
 </div>
 
